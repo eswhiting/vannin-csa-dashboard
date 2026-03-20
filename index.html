@@ -951,6 +951,40 @@
   </style>
 </head>
 <body>
+  <div id="passwordGate" style="
+  position: fixed;
+  inset: 0;
+  background: #001F40;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: sans-serif;
+">
+  <div style="text-align: center;">
+    <h2>Vannin × CSA Dashboard</h2>
+    <p>Enter password to access</p>
+    <input id="pwInput" type="password" placeholder="Password"
+      style="padding:10px; border-radius:6px; border:none; margin-top:10px;" />
+    <br><br>
+    <button onclick="checkPassword()"
+      style="padding:10px 16px; border:none; border-radius:6px; background:#FFDC0B; font-weight:bold;">
+      Enter
+    </button>
+  </div>
+</div>
+
+<script>
+function checkPassword() {
+  const pw = document.getElementById("pwInput").value;
+  if (pw === "vannin2026") {
+    document.getElementById("passwordGate").style.display = "none";
+  } else {
+    alert("Incorrect password");
+  }
+}
+</script>
   <div class="app-shell">
     <header class="topbar">
       <div class="topbar-inner">
