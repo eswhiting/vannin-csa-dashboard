@@ -75,17 +75,18 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      min-width: 0;
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--csa-yellow), #e9c600);
-      color: var(--csa-royal-blue);
-      display: grid;
-      place-items: center;
-      font-weight: 800;
+    .brand-logo {
+      height: 52px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      border-radius: 6px;
+      background: white;
+      padding: 4px 6px;
+      flex: 0 0 auto;
     }
 
     .brand-title {
@@ -579,6 +580,10 @@
         grid-template-columns: 1fr;
       }
 
+      .brand-logo {
+        height: 40px;
+      }
+
       .brand-title {
         font-size: 20px;
       }
@@ -617,7 +622,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">VX</div>
+        <img src="csa-logo.jpg" alt="Chief of Staff Association logo" class="brand-logo" />
         <div class="brand-title">Vannin × CSA Integration Dashboard</div>
       </div>
       <div class="top-actions">
@@ -944,10 +949,10 @@
 
     function statusBadge(status) {
       const s = (status || "").toLowerCase();
-      if (["green", "on track", "complete", "completed", "champion", "supporter"].includes(s)) {
+      if (["green", "on track", "complete", "completed", "champion", "supporter", "open"].includes(s)) {
         return '<span class="badge status-green">' + (status || "Green") + '</span>';
       }
-      if (["yellow", "at risk", "in progress", "neutral", "concerned", "upcoming", "mixed"].includes(s)) {
+      if (["yellow", "at risk", "in progress", "neutral", "concerned", "upcoming", "mixed", "medium"].includes(s)) {
         return '<span class="badge status-yellow">' + (status || "Yellow") + '</span>';
       }
       if (["red", "blocked", "delayed", "detractor", "overdue", "high"].includes(s)) {
