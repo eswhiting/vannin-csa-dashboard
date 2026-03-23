@@ -1,7 +1,9 @@
-Workstream,% Complete,Status,Notes,Completed,In Progress,At Risk
-Tech,45,Red,CRM migration is pacing item,2,3,1
-Product,60,Yellow,Requirements mostly stable,3,2,0
-Legal,55,Yellow,Awaiting entity decision,2,2,1
-Finance,50,Yellow,Billing alignment in progress,1,3,1
-Brand,40,Red,Messaging still being finalized,1,2,2
-People,70,Green,Onboarding readiness improving,3,1,0
+Workstreams — Manual Health + Auto Rollups,,,,,,,
+,,,,,,,
+Workstream,% Complete,Status,Notes,Open Actions,Overdue Actions,Open Risks,Open Milestones
+Tech,0.0%,Yellow,,0,0,0,3
+Product,0.0%,Yellow,,0,0,0,2
+Legal,0.0%,Yellow,,1,0,1,1
+Finance,0.0%,Yellow,,10,0,0,2
+Brand,0.0%,Yellow,,0,0,0,2
+People,0.0%,Yellow,,0,0,0,3

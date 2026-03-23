@@ -1,2 +1,9 @@
-Risk Name,Workstream,Severity,Owner,Mitigation,Status
-CRM data quality,Tech,High,James,Validation and cleansing plan,Open
+Risks Register,,,,,,,
+,,,,,,,
+Risk ID,Risk Name,Workstream,Severity,Owner,Status,Mitigation Plan,Notes
+R01,Legal structure decision delays downstream planning,Legal,High,Trent Smyth,Open,Escalate weekly to steering committee until decision is ratified.,"Affects billing, compliance, and reporting."
+R02,,,,,,,
+R03,,,,,,,
+R04,,,,,,,
+R05,,,,,,,
+R06,,,,,,,
