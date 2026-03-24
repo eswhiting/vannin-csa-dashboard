@@ -26,6 +26,7 @@
       --status-red: #b3442c;
       --status-yellow: #9a7b00;
       --status-green: #278B42;
+      --status-gray: #6b7280;
 
       --tech: #3b82f6;
       --product: #8b5cf6;
@@ -39,6 +40,7 @@
     }
 
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Inter, Arial, sans-serif;
@@ -258,6 +260,12 @@
       border-color: rgba(92, 101, 105, 0.16);
     }
 
+    .status-gray {
+      color: var(--status-gray);
+      background: rgba(107, 114, 128, 0.10);
+      border-color: rgba(107, 114, 128, 0.18);
+    }
+
     .snapshot-grid {
       display: grid;
       grid-template-columns: 180px 1fr;
@@ -399,6 +407,7 @@
     }
 
     .stakeholder-card { position: relative; }
+
     .stakeholder-head {
       display: flex;
       gap: 14px;
@@ -464,7 +473,27 @@
     }
 
     .gantt-wrap { overflow: auto; }
-    .gantt-table { min-width: 1100px; }
+    .gantt-table { min-width: 1400px; }
+
+    .gantt-scale {
+      display: grid;
+      gap: 0;
+      align-items: stretch;
+      min-width: 100%;
+      border-left: 1px solid #edf1f5;
+    }
+
+    .gantt-scale-cell {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+      padding: 0 4px;
+      border-right: 1px solid #edf1f5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .gantt-bar-wrap {
       height: 18px;
@@ -472,6 +501,10 @@
       border-radius: 999px;
       position: relative;
       overflow: hidden;
+      background-image: linear-gradient(to right, rgba(255,255,255,0.45), rgba(255,255,255,0.45)),
+        linear-gradient(to right, #e5ebf2 1px, transparent 1px);
+      background-size: 100% 100%, calc(100% / var(--weeks)) 100%;
+      background-position: 0 0, 0 0;
     }
 
     .gantt-bar {
@@ -492,8 +525,8 @@
       position: absolute;
       top: -6px;
       bottom: -6px;
-      left: 50%;
       opacity: 0.9;
+      z-index: 2;
     }
 
     .critical-dot {
@@ -617,16 +650,25 @@
         <h2 class="section-title">Summary</h2>
         <p class="section-desc">Executive-level project overview across status, schedule, milestones, and workstream health.</p>
       </div>
-      <div class="section"><div id="summaryHeaderCards" class="grid grid-4"></div></div>
-      <div class="section"><div class="card"><div class="snapshot-grid" id="summarySnapshot"></div></div></div>
+
+      <div class="section">
+        <div id="summaryHeaderCards" class="grid grid-4"></div>
+      </div>
+
+      <div class="section">
+        <div class="card">
+          <div class="snapshot-grid" id="summarySnapshot"></div>
+        </div>
+      </div>
+
       <div class="section">
         <h3 class="section-title">Key Milestones</h3>
         <div class="card">
           <table>
             <thead>
               <tr>
-                <th>Workstream</th>
                 <th>Milestone</th>
+                <th>Definition</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Owner</th>
@@ -637,6 +679,7 @@
           </table>
         </div>
       </div>
+
       <div class="section">
         <h3 class="section-title">Workstream Health</h3>
         <div id="workstreamHealthCards" class="grid grid-3"></div>
@@ -658,6 +701,7 @@
         <h2 class="section-title">Schedule</h2>
         <p class="section-desc">Milestone-driven timeline, schedule health, and workstream delivery progress.</p>
       </div>
+
       <div class="section">
         <div id="scheduleOverview" class="grid grid-6"></div>
         <div class="card progress-wrap">
@@ -669,23 +713,24 @@
           <div class="timeline-strip" id="phaseStrip"></div>
         </div>
       </div>
-      <div class="section"><div id="scheduleRiskStrip" class="attention-list"></div></div>
+
       <div class="section">
         <h3 class="section-title">Milestone Gantt View</h3>
         <div class="card gantt-wrap">
-          <div class="note">Red markers indicate critical path items. The red line marks today.</div>
+          <div class="note">Red markers indicate critical path items. Red line marks today. Weekly markers shown across the timeline.</div>
           <table class="gantt-table">
             <thead>
               <tr>
                 <th style="width:180px;">Workstream</th>
                 <th style="width:260px;">Milestone</th>
-                <th>Timeline</th>
+                <th id="ganttTimelineHeader">Timeline</th>
               </tr>
             </thead>
             <tbody id="ganttTableBody"></tbody>
           </table>
         </div>
       </div>
+
       <div class="section">
         <h3 class="section-title">Workstream Breakdown</h3>
         <div id="scheduleWorkstreamCards" class="grid grid-3"></div>
@@ -697,8 +742,11 @@
         <h2 class="section-title">Action Items</h2>
         <p class="section-desc">Execution view across overdue actions, open priorities, and risk-linked follow-up items.</p>
       </div>
-      <div class="section"><div id="actionOverviewCards" class="grid grid-5"></div></div>
-      <div class="section"><div id="priorityActionStrip" class="attention-list"></div></div>
+
+      <div class="section">
+        <div id="actionOverviewCards" class="grid grid-5"></div>
+      </div>
+
       <div class="section">
         <h3 class="section-title">Overdue Actions</h3>
         <div class="card">
@@ -718,6 +766,7 @@
           </table>
         </div>
       </div>
+
       <div class="section">
         <h3 class="section-title">Top Open Action Items</h3>
         <div class="card">
@@ -737,10 +786,12 @@
           </table>
         </div>
       </div>
+
       <div class="section">
         <h3 class="section-title">Action Items by Workstream</h3>
         <div id="actionWorkstreamCards" class="grid grid-3"></div>
       </div>
+
       <div class="section">
         <h3 class="section-title">Open Risks</h3>
         <div class="card">
@@ -800,9 +851,7 @@
     }
 
     function cleanText(value) {
-      return String(value || "")
-        .replace(/\s+/g, " ")
-        .trim();
+      return String(value || "").replace(/\s+/g, " ").trim();
     }
 
     function parseCSV(text) {
@@ -887,13 +936,32 @@
       if (["green", "on track", "complete", "completed", "champion", "supporter", "open"].includes(s)) {
         return '<span class="badge status-green">' + (status || "Green") + '</span>';
       }
-      if (["yellow", "at risk", "in progress", "neutral", "concerned", "upcoming", "mixed", "medium", "not started"].includes(s)) {
+      if (["yellow", "neutral", "concerned", "upcoming", "mixed", "medium"].includes(s)) {
         return '<span class="badge status-yellow">' + (status || "Yellow") + '</span>';
       }
-      if (["red", "blocked", "delayed", "detractor", "overdue", "high"].includes(s)) {
+      if (["red", "blocked", "delayed", "detractor", "overdue", "high", "at risk"].includes(s)) {
         return '<span class="badge status-red">' + (status || "Red") + '</span>';
       }
       return '<span class="badge status-neutral">' + (status || "—") + '</span>';
+    }
+
+    function progressStatusBadge(status) {
+      const s = (status || "").toLowerCase().trim();
+
+      if (["complete", "completed"].includes(s)) {
+        return `<span class="badge status-green">${status || "Complete"}</span>`;
+      }
+      if (["in progress"].includes(s)) {
+        return `<span class="badge status-yellow">${status || "In Progress"}</span>`;
+      }
+      if (["at risk", "blocked", "overdue", "delayed"].includes(s)) {
+        return `<span class="badge status-red">${status || "At Risk"}</span>`;
+      }
+      if (["not started"].includes(s)) {
+        return `<span class="badge status-gray">${status || "Not Started"}</span>`;
+      }
+
+      return `<span class="badge status-neutral">${status || "—"}</span>`;
     }
 
     function workstreamClass(name) {
@@ -919,6 +987,38 @@
     function toNumber(value, fallback = 0) {
       const n = parseFloat(String(value).replace("%", "").trim());
       return isNaN(n) ? fallback : n;
+    }
+
+    function startOfWeek(date) {
+      const d = new Date(date);
+      const day = d.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      d.setDate(d.getDate() + diff);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function addDays(date, days) {
+      const d = new Date(date);
+      d.setDate(d.getDate() + days);
+      return d;
+    }
+
+    function buildWeeklyScale(minDate, maxDate) {
+      const weeks = [];
+      let cursor = startOfWeek(minDate);
+      const end = addDays(maxDate, 7);
+
+      while (cursor <= end) {
+        weeks.push(new Date(cursor));
+        cursor = addDays(cursor, 7);
+      }
+
+      return weeks;
+    }
+
+    function formatWeekLabel(date) {
+      return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
     }
 
     function normalizeSummary() {
@@ -1019,8 +1119,8 @@
 
           milestones.forEach((m) => {
             const milestoneText = [
-              `Workstream: ${safeGet(m, ["Workstream"], "—")}`,
               `Milestone: ${safeGet(m, ["Milestone Name", "Milestone"], "—")}`,
+              `Definition: ${safeGet(m, ["Definition", "Description"], "—")}`,
               `Date: ${formatDate(safeGet(m, ["Date", "End Date", "Milestone Date"]))}`,
               `Status: ${safeGet(m, ["Status"], "—")}`,
               `Owner: ${safeGet(m, ["Owner"], "—")}`,
@@ -1104,10 +1204,10 @@
       const milestones = APP.schedule.slice(0, 8);
       document.getElementById("summaryMilestonesTable").innerHTML = milestones.map(m => `
         <tr>
-          <td>${safeGet(m, ["Workstream"], "—")}</td>
           <td>${safeGet(m, ["Milestone Name", "Milestone"], "—")}</td>
+          <td>${safeGet(m, ["Definition", "Description"], "—")}</td>
           <td>${formatDate(safeGet(m, ["Date", "End Date", "Milestone Date"]))}</td>
-          <td>${statusBadge(safeGet(m, ["Status"], "—"))}</td>
+          <td>${progressStatusBadge(safeGet(m, ["Status"], "—"))}</td>
           <td>${safeGet(m, ["Owner"], "—")}</td>
           <td>${safeGet(m, ["Critical Path", "CriticalPath"], "No")}</td>
         </tr>
@@ -1226,33 +1326,26 @@
         return `<span class="phase-pill ${cls}">${phase}</span>`;
       }).join("");
 
-      const scheduleRisks = APP.schedule.filter(r => {
-        const status = safeGet(r, ["Status"], "").toLowerCase();
-        const date = parseDate(safeGet(r, ["Date", "End Date", "Milestone Date"]));
-        const isLate = date && date < TODAY && status !== "complete";
-        return isLate || status === "at risk" || safeGet(r, ["Critical Path", "CriticalPath"], "").toLowerCase() === "yes";
-      }).slice(0, 5);
-
-      document.getElementById("scheduleRiskStrip").innerHTML = scheduleRisks.length
-        ? scheduleRisks.map(r => `
-            <div class="attention-item">
-              <strong>${safeGet(r, ["Milestone Name", "Milestone"], "Milestone")}</strong> — ${safeGet(r, ["Workstream"], "Workstream")}
-            </div>
-          `).join("")
-        : `<div class="card">No schedule risks currently flagged.</div>`;
-
-      const dates = APP.schedule
-        .map(r => parseDate(safeGet(r, ["Start Date"])))
+      const startDates = APP.schedule
+        .map(r => parseDate(safeGet(r, ["Start Date"], safeGet(r, ["Date", "End Date", "Milestone Date"]))))
         .filter(Boolean)
         .sort((a, b) => a - b);
 
-      const minDate = dates[0] || TODAY;
-      const maxDate = APP.schedule
+      const endDates = APP.schedule
         .map(r => parseDate(safeGet(r, ["End Date", "Date", "Milestone Date"])))
         .filter(Boolean)
-        .sort((a, b) => b - a)[0] || TODAY;
+        .sort((a, b) => b - a);
 
+      const minDate = startDates[0] || TODAY;
+      const maxDate = endDates[0] || TODAY;
       const totalDuration = Math.max(1, diffDays(minDate, maxDate));
+      const weeks = buildWeeklyScale(minDate, maxDate);
+
+      document.getElementById("ganttTimelineHeader").innerHTML = `
+        <div class="gantt-scale" style="grid-template-columns: repeat(${weeks.length}, minmax(48px, 1fr));">
+          ${weeks.map(w => `<div class="gantt-scale-cell">${formatWeekLabel(w)}</div>`).join("")}
+        </div>
+      `;
 
       document.getElementById("ganttTableBody").innerHTML = APP.schedule.map(r => {
         const start = parseDate(safeGet(r, ["Start Date"], safeGet(r, ["Date", "End Date", "Milestone Date"]))) || TODAY;
@@ -1261,6 +1354,7 @@
         const width = Math.max(2, (Math.max(1, diffDays(start, end) + 1) / totalDuration) * 100);
         const todayPos = Math.max(0, Math.min(100, (diffDays(minDate, TODAY) / totalDuration) * 100));
         const status = safeGet(r, ["Status"], "").toLowerCase();
+
         let barClass = "";
         if (status === "complete") barClass = "complete";
         else if (status === "at risk") barClass = "risk";
@@ -1274,7 +1368,7 @@
               ${safeGet(r, ["Critical Path", "CriticalPath"], "").toLowerCase() === "yes" ? '<span class="critical-dot"></span>' : ''}
             </td>
             <td>
-              <div class="gantt-bar-wrap">
+              <div class="gantt-bar-wrap" style="--weeks:${weeks.length};">
                 <div class="today-line" style="left:${todayPos}%"></div>
                 <div class="gantt-bar ${barClass}" style="left:${left}%; width:${width}%"></div>
               </div>
@@ -1307,166 +1401,4 @@
     function renderActions() {
       const openActions = APP.actions.filter(a => safeGet(a, ["Status"], "").toLowerCase() !== "complete");
       const overdue = openActions.filter(a => {
-        const d = parseDate(safeGet(a, ["Due Date", "DueDate"]));
-        return d && d < TODAY;
-      });
-      const closedThisMonth = APP.actions.filter(a => {
-        const completed = parseDate(safeGet(a, ["Completed Date", "CompletedDate"]));
-        return completed &&
-          completed.getMonth() === TODAY.getMonth() &&
-          completed.getFullYear() === TODAY.getFullYear();
-      });
-      const openRisks = APP.risks.filter(r => safeGet(r, ["Status"], "").toLowerCase() !== "closed");
-
-      document.getElementById("actionOverviewCards").innerHTML = `
-        <div class="card kpi-card accent-red"><div class="kpi-label">Overdue Items</div><div class="kpi-value">${overdue.length}</div><div class="kpi-sub">Require immediate follow-up</div></div>
-        <div class="card kpi-card accent-yellow"><div class="kpi-label">Open Items</div><div class="kpi-value">${openActions.length}</div><div class="kpi-sub">Not yet completed</div></div>
-        <div class="card kpi-card accent-green"><div class="kpi-label">Closed This Month</div><div class="kpi-value">${closedThisMonth.length}</div><div class="kpi-sub">Completed in current month</div></div>
-        <div class="card kpi-card accent-blue"><div class="kpi-label">Total Tracked</div><div class="kpi-value">${APP.actions.length}</div><div class="kpi-sub">All action items</div></div>
-        <div class="card kpi-card accent-red"><div class="kpi-label">Open Risks</div><div class="kpi-value">${openRisks.length}</div><div class="kpi-sub">Active unresolved risks</div></div>
-      `;
-
-      const priorityItems = openActions.filter(a => {
-        const status = safeGet(a, ["Status"], "").toLowerCase();
-        const priority = safeGet(a, ["Priority"], "").toLowerCase();
-        const critical = safeGet(a, ["Critical Path", "CriticalPath"], "").toLowerCase() === "yes";
-        return status === "blocked" || priority === "high" || critical;
-      }).slice(0, 5);
-
-      document.getElementById("priorityActionStrip").innerHTML = priorityItems.length
-        ? priorityItems.map(a => `
-            <div class="attention-item">
-              <strong>${safeGet(a, ["Item Name", "Item"], "Item")}</strong> — ${safeGet(a, ["Workstream"], "Workstream")}
-            </div>
-          `).join("")
-        : `<div class="card">No priority actions currently flagged.</div>`;
-
-      document.getElementById("overdueActionsTable").innerHTML = overdue
-        .sort((a, b) => {
-          const da = parseDate(safeGet(a, ["Due Date", "DueDate"])) || TODAY;
-          const db = parseDate(safeGet(b, ["Due Date", "DueDate"])) || TODAY;
-          return da - db;
-        })
-        .map(a => {
-          const due = parseDate(safeGet(a, ["Due Date", "DueDate"])) || TODAY;
-          const days = Math.abs(diffDays(due, TODAY));
-          return `
-            <tr>
-              <td>${safeGet(a, ["Item Name", "Item"], "—")}</td>
-              <td>${safeGet(a, ["Milestone"], "—")}</td>
-              <td>${safeGet(a, ["Workstream"], "—")}</td>
-              <td>${safeGet(a, ["Description"], "—")}</td>
-              <td>${safeGet(a, ["Owner"], "—")}</td>
-              <td>${formatDate(due)}</td>
-              <td>${days}</td>
-            </tr>
-          `;
-        }).join("") || `<tr><td colspan="7">No overdue actions.</td></tr>`;
-
-      const topOpen = openActions
-        .filter(a => {
-          const priority = safeGet(a, ["Priority"], "").toLowerCase();
-          const critical = safeGet(a, ["Critical Path", "CriticalPath"], "").toLowerCase() === "yes";
-          const due = parseDate(safeGet(a, ["Due Date", "DueDate"]));
-          const soon = due && diffDays(TODAY, due) <= 10;
-          return priority === "high" || critical || soon;
-        })
-        .slice(0, 10);
-
-      document.getElementById("topOpenActionsTable").innerHTML = topOpen.map(a => `
-        <tr>
-          <td>${safeGet(a, ["Item Name", "Item"], "—")}</td>
-          <td>${safeGet(a, ["Milestone"], "—")}</td>
-          <td>${safeGet(a, ["Workstream"], "—")}</td>
-          <td>${safeGet(a, ["Description"], "—")}</td>
-          <td>${safeGet(a, ["Owner"], "—")}</td>
-          <td>${formatDate(safeGet(a, ["Due Date", "DueDate"]))}</td>
-          <td>${statusBadge(safeGet(a, ["Status"], "—"))}</td>
-        </tr>
-      `).join("") || `<tr><td colspan="7">No open actions currently flagged.</td></tr>`;
-
-      const wsMap = {};
-      APP.actions.forEach(a => {
-        const ws = safeGet(a, ["Workstream"], "Other");
-        if (!wsMap[ws]) wsMap[ws] = { total: 0, overdue: 0, open: 0, blocked: 0 };
-        wsMap[ws].total++;
-        if (safeGet(a, ["Status"], "").toLowerCase() !== "complete") wsMap[ws].open++;
-        if (safeGet(a, ["Status"], "").toLowerCase() === "blocked") wsMap[ws].blocked++;
-        const due = parseDate(safeGet(a, ["Due Date", "DueDate"]));
-        if (due && due < TODAY && safeGet(a, ["Status"], "").toLowerCase() !== "complete") wsMap[ws].overdue++;
-      });
-
-      document.getElementById("actionWorkstreamCards").innerHTML = Object.entries(wsMap).map(([ws, data]) => `
-        <div class="card workstream-card ${workstreamClass(ws)}">
-          <div class="workstream-title">${ws}</div>
-          <div style="font-size:28px; font-weight:800; color:var(--csa-royal-blue);">${data.total}</div>
-          <div style="color:var(--muted);">${data.overdue} overdue · ${data.open} open · ${data.blocked} blocked</div>
-        </div>
-      `).join("") || `<div class="card">No action item data found yet.</div>`;
-
-      document.getElementById("openRisksTable").innerHTML = openRisks.map(r => `
-        <tr>
-          <td>${safeGet(r, ["Risk Name", "Risk"], "—")}</td>
-          <td>${safeGet(r, ["Workstream"], "—")}</td>
-          <td>${statusBadge(safeGet(r, ["Severity"], "—"))}</td>
-          <td>${safeGet(r, ["Owner"], "—")}</td>
-          <td>${safeGet(r, ["Mitigation"], "—")}</td>
-          <td>${statusBadge(safeGet(r, ["Status"], "—"))}</td>
-        </tr>
-      `).join("") || `<tr><td colspan="6">No open risks found.</td></tr>`;
-    }
-
-    function renderLoadingState() {
-      const loading = `<div class="card loading-card">Loading data from Google Sheets...</div>`;
-      document.getElementById("summaryHeaderCards").innerHTML = loading;
-      document.getElementById("stakeholderCards").innerHTML = loading;
-      document.getElementById("scheduleOverview").innerHTML = loading;
-      document.getElementById("actionOverviewCards").innerHTML = loading;
-    }
-
-    async function init() {
-      try {
-        renderLoadingState();
-
-        const [summary, stakeholders, schedule, actions, risks, workstreams] = await Promise.all([
-          loadCSV(csvUrl(SHEET_CONFIG.tabs.summary)),
-          loadCSV(csvUrl(SHEET_CONFIG.tabs.stakeholders)),
-          loadCSV(csvUrl(SHEET_CONFIG.tabs.schedule)),
-          loadCSV(csvUrl(SHEET_CONFIG.tabs.actions)),
-          loadCSV(csvUrl(SHEET_CONFIG.tabs.risks)),
-          loadCSV(csvUrl(SHEET_CONFIG.tabs.workstreams))
-        ]);
-
-        APP.summary = summary;
-        APP.stakeholders = stakeholders;
-        APP.schedule = schedule;
-        APP.actions = actions;
-        APP.risks = risks;
-        APP.workstreams = workstreams;
-
-        renderSummary();
-        renderStakeholders();
-        renderSchedule();
-        renderActions();
-      } catch (error) {
-        console.error(error);
-        document.querySelector(".page").innerHTML = `
-          <div class="card">
-            <h2>Google Sheet data could not be loaded</h2>
-            <p>Check these items:</p>
-            <ul>
-              <li>Your Google Sheet is accessible publicly or published to the web</li>
-              <li>The GIDs in <strong>SHEET_CONFIG</strong> are correct</li>
-              <li>Each publish tab starts with headers in row 1</li>
-              <li>There are no merged title rows above the headers</li>
-              <li>The jsPDF CDN is loading correctly for PDF downloads</li>
-            </ul>
-          </div>
-        `;
-      }
-    }
-
-    init();
-  </script>
-</body>
-</html>
+        const d = parseDate(s
