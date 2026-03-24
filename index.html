@@ -7,612 +7,104 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
-      --csa-royal-blue: #001F40;
-      --csa-blue: #00365F;
-      --csa-yellow: #FFDC0B;
-      --csa-platinum: #F5F4F2;
-      --csa-charcoal: #5C6569;
-      --csa-green: #278B42;
-      --csa-sky-blue: #00ACD0;
-
-      --bg: #eef1f4;
-      --surface: #ffffff;
-      --text: #10243d;
-      --text-soft: #31465f;
-      --muted: #5c6569;
-      --border: rgba(0, 31, 64, 0.10);
-      --shadow: 0 10px 28px rgba(0, 31, 64, 0.08);
-
-      --status-red: #b3442c;
-      --status-yellow: #9a7b00;
-      --status-green: #278B42;
-      --status-gray: #6b7280;
-
-      --tech: #3b82f6;
-      --product: #8b5cf6;
-      --legal: #6b7280;
-      --finance: #16a34a;
-      --brand: #f59e0b;
-      --people: #14b8a6;
-
-      --radius: 16px;
-      --header-height: 72px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background: linear-gradient(180deg, #f5f4f2 0%, #eef1f4 100%);
-      color: var(--text);
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(0, 31, 64, 0.96);
-      color: white;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .topbar-inner,
-    .page {
-      width: min(1400px, calc(100vw - 32px));
-      margin: 0 auto;
-    }
-
-    .topbar-inner {
-      min-height: var(--header-height);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding: 12px 0;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .brand-logo {
-      height: 52px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-      border-radius: 6px;
-      background: white;
-      padding: 4px 6px;
-      flex: 0 0 auto;
-    }
-
-    .brand-title {
-      font-size: 26px;
-      font-weight: 800;
-      color: white;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .button-primary {
-      background: var(--csa-yellow);
-      color: var(--csa-royal-blue);
-    }
-
-    .button-secondary {
-      background: rgba(255,255,255,0.08);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-
-    .tabs {
-      background: white;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .tabs-inner {
-      width: min(1400px, calc(100vw - 32px));
-      margin: 0 auto;
-      display: flex;
-      gap: 10px;
-      padding: 14px 0;
-      flex-wrap: wrap;
-    }
-
-    .tab-button {
-      background: #f2f4f7;
-      border: 1px solid #dde3eb;
-      border-radius: 10px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--csa-royal-blue);
-    }
-
-    .tab-button.active {
-      background: var(--csa-blue);
-      color: white;
-      border-color: var(--csa-blue);
-    }
-
-    .page {
-      padding: 24px 0 48px;
-    }
-
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    .section {
-      margin-bottom: 22px;
-    }
-
-    .section-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--csa-royal-blue);
-      margin: 0 0 8px;
-    }
-
-    .section-desc {
-      color: var(--muted);
-      margin: 0 0 16px;
-    }
-
-    .grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    .grid-4 { grid-template-columns: repeat(4, 1fr); }
-    .grid-5 { grid-template-columns: repeat(5, 1fr); }
-    .grid-6 { grid-template-columns: repeat(6, 1fr); }
-
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-
-    .kpi-card {
-      min-height: 110px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .kpi-label {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .kpi-value {
-      font-size: 30px;
-      font-weight: 800;
-      color: var(--csa-royal-blue);
-    }
-
-    .kpi-sub {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .accent-red { border-left: 4px solid var(--status-red); }
-    .accent-yellow { border-left: 4px solid var(--csa-yellow); }
-    .accent-green { border-left: 4px solid var(--csa-green); }
-    .accent-blue { border-left: 4px solid var(--csa-blue); }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 7px 11px;
-      font-size: 12px;
-      font-weight: 800;
-      border: 1px solid transparent;
-      white-space: nowrap;
-    }
-
-    .status-green {
-      color: var(--status-green);
-      background: rgba(39, 139, 66, 0.12);
-      border-color: rgba(39, 139, 66, 0.18);
-    }
-
-    .status-yellow {
-      color: var(--status-yellow);
-      background: rgba(255, 220, 11, 0.20);
-      border-color: rgba(255, 220, 11, 0.30);
-    }
-
-    .status-red {
-      color: var(--status-red);
-      background: rgba(179, 68, 44, 0.12);
-      border-color: rgba(179, 68, 44, 0.18);
-    }
-
-    .status-neutral {
-      color: var(--csa-charcoal);
-      background: rgba(92, 101, 105, 0.10);
-      border-color: rgba(92, 101, 105, 0.16);
-    }
-
-    .status-gray {
-      color: var(--status-gray);
-      background: rgba(107, 114, 128, 0.10);
-      border-color: rgba(107, 114, 128, 0.18);
-    }
-
-    .snapshot-grid {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      row-gap: 14px;
-      column-gap: 16px;
-      align-items: start;
-    }
-
-    .snapshot-label {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .timeline-strip {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    .phase-pill {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #edf2f7;
-      border: 1px solid #d9e1ec;
-      font-weight: 700;
-      color: var(--csa-charcoal);
-      font-size: 13px;
-    }
-
-    .phase-pill.complete {
-      background: rgba(39, 139, 66, 0.12);
-      color: var(--status-green);
-      border-color: rgba(39, 139, 66, 0.18);
-    }
-
-    .phase-pill.current {
-      background: rgba(0, 54, 95, 0.12);
-      color: var(--csa-blue);
-      border-color: rgba(0, 54, 95, 0.20);
-    }
-
-    .progress-wrap {
-      margin-top: 12px;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 12px;
-      background: rgba(0, 31, 64, 0.10);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-bar > span {
-      display: block;
-      height: 100%;
-      background: linear-gradient(90deg, var(--csa-blue), var(--csa-sky-blue));
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid #e6ebf2;
-      vertical-align: top;
-      font-size: 14px;
-    }
-
-    th {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .workstream-card {
-      border-top: 5px solid transparent;
-    }
-
-    .ws-tech { border-top-color: var(--tech); }
-    .ws-product { border-top-color: var(--product); }
-    .ws-legal { border-top-color: var(--legal); }
-    .ws-finance { border-top-color: var(--finance); }
-    .ws-brand { border-top-color: var(--brand); }
-    .ws-people { border-top-color: var(--people); }
-
-    .workstream-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--csa-royal-blue);
-      margin-bottom: 10px;
-    }
-
-    .small-progress {
-      width: 100%;
-      height: 10px;
-      background: rgba(0, 31, 64, 0.10);
-      border-radius: 999px;
-      overflow: hidden;
-      margin: 10px 0;
-    }
-
-    .small-progress span {
-      display: block;
-      height: 100%;
-      background: linear-gradient(90deg, var(--csa-blue), var(--csa-sky-blue));
-    }
-
-    .tag-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .tag {
-      background: #f2f4f7;
-      border: 1px solid #dde3eb;
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--csa-royal-blue);
-      cursor: pointer;
-    }
-
-    .tag.active {
-      background: var(--csa-blue);
-      color: white;
-      border-color: var(--csa-blue);
-    }
-
-    .stakeholder-card { position: relative; }
-
-    .stakeholder-head {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-
-    .avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 800;
-      flex: 0 0 auto;
-      background: var(--csa-blue);
-    }
-
-    .stakeholder-name {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--csa-royal-blue);
-    }
-
-    .stakeholder-company {
-      color: var(--csa-blue);
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
-    .stakeholder-role {
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .stakeholder-footer {
-      margin-top: 12px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .stakeholder-expand {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid #e6ebf2;
-      color: var(--text-soft);
-      display: none;
-    }
-
-    .stakeholder-card.open .stakeholder-expand { display: block; }
-
-    .attention-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .attention-item {
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--status-red);
-      border-radius: 12px;
-      padding: 14px;
-      background: white;
-    }
-
-    .gantt-wrap { overflow: auto; }
-    .gantt-table { min-width: 1400px; }
-
-    .gantt-scale {
-      display: grid;
-      gap: 0;
-      align-items: stretch;
-      min-width: 100%;
-      border-left: 1px solid #edf1f5;
-    }
-
-    .gantt-scale-cell {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-align: center;
-      padding: 0 4px;
-      border-right: 1px solid #edf1f5;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .gantt-bar-wrap {
-      height: 18px;
-      background: #e8edf4;
-      border-radius: 999px;
-      position: relative;
-      overflow: hidden;
-      background-image: linear-gradient(to right, rgba(255,255,255,0.45), rgba(255,255,255,0.45)),
-        linear-gradient(to right, #e5ebf2 1px, transparent 1px);
-      background-size: 100% 100%, calc(100% / var(--weeks)) 100%;
-      background-position: 0 0, 0 0;
-    }
-
-    .gantt-bar {
-      height: 100%;
-      border-radius: 999px;
-      background: var(--csa-blue);
-      position: absolute;
-      top: 0;
-    }
-
-    .gantt-bar.complete { background: var(--csa-green); }
-    .gantt-bar.risk { background: #d97706; }
-    .gantt-bar.blocked { background: var(--status-red); }
-
-    .today-line {
-      width: 2px;
-      background: var(--status-red);
-      position: absolute;
-      top: -6px;
-      bottom: -6px;
-      opacity: 0.9;
-      z-index: 2;
-    }
-
-    .critical-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--status-red);
-      margin-left: 8px;
-    }
-
-    .note {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    .loading-card {
-      text-align: center;
-      color: var(--muted);
-      padding: 28px;
-    }
-
-    #passwordGate {
-      position: fixed;
-      inset: 0;
-      background: #001F40;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 20px;
-    }
-
-    .password-box {
-      width: min(420px, 100%);
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .password-box input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-
-    .hidden { display: none !important; }
-
-    @media (max-width: 1100px) {
-      .grid-6 { grid-template-columns: repeat(3, 1fr); }
-      .grid-5 { grid-template-columns: repeat(2, 1fr); }
-      .grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .grid-3 { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 700px) {
-      .topbar-inner, .tabs-inner, .page {
-        width: min(100vw - 20px, 1400px);
-      }
-
-      .grid-6, .grid-5, .grid-4, .grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .snapshot-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .brand-logo {
-        height: 40px;
-      }
-
-      .brand-title {
-        font-size: 20px;
-      }
+      --csa-royal-blue:#001F40; --csa-blue:#00365F; --csa-yellow:#FFDC0B; --csa-platinum:#F5F4F2;
+      --csa-charcoal:#5C6569; --csa-green:#278B42; --csa-sky-blue:#00ACD0;
+      --bg:#eef1f4; --surface:#ffffff; --text:#10243d; --text-soft:#31465f; --muted:#5c6569;
+      --border:rgba(0,31,64,.10); --shadow:0 10px 28px rgba(0,31,64,.08);
+      --status-red:#b3442c; --status-yellow:#9a7b00; --status-green:#278B42;
+      --tech:#3b82f6; --product:#8b5cf6; --legal:#6b7280; --finance:#16a34a; --brand:#f59e0b; --people:#14b8a6;
+      --radius:16px; --header-height:72px; --gantt-week-width:72px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,sans-serif;background:linear-gradient(180deg,#f5f4f2 0%,#eef1f4 100%);color:var(--text)}
+    .topbar{position:sticky;top:0;z-index:100;background:rgba(0,31,64,.96);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+    .topbar-inner,.page{width:min(1400px,calc(100vw - 32px));margin:0 auto}
+    .topbar-inner{min-height:var(--header-height);display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand-logo{height:52px;width:auto;display:block;object-fit:contain;border-radius:6px;background:#fff;padding:4px 6px;flex:0 0 auto}
+    .brand-title{font-size:26px;font-weight:800;color:#fff}
+    .top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .button{border:none;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}
+    .button-primary{background:var(--csa-yellow);color:var(--csa-royal-blue)}
+    .button-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.10)}
+    .tabs{background:#fff;border-bottom:1px solid var(--border)}
+    .tabs-inner{width:min(1400px,calc(100vw - 32px));margin:0 auto;display:flex;gap:10px;padding:14px 0;flex-wrap:wrap}
+    .tab-button{background:#f2f4f7;border:1px solid #dde3eb;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700;color:var(--csa-royal-blue)}
+    .tab-button.active{background:var(--csa-blue);color:#fff;border-color:var(--csa-blue)}
+    .page{padding:24px 0 48px}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+    .section{margin-bottom:22px}
+    .section-title{font-size:22px;font-weight:800;color:var(--csa-royal-blue);margin:0 0 8px}
+    .section-desc{color:var(--muted);margin:0 0 16px}
+    .grid{display:grid;gap:16px}
+    .grid-3{grid-template-columns:repeat(3,1fr)} .grid-4{grid-template-columns:repeat(4,1fr)} .grid-5{grid-template-columns:repeat(5,1fr)} .grid-6{grid-template-columns:repeat(6,1fr)}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .kpi-card{min-height:110px;display:flex;flex-direction:column;justify-content:space-between}
+    .kpi-label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .kpi-value{font-size:30px;font-weight:800;color:var(--csa-royal-blue)}
+    .kpi-sub{font-size:13px;color:var(--muted)}
+    .accent-red{border-left:4px solid var(--status-red)} .accent-yellow{border-left:4px solid var(--csa-yellow)} .accent-green{border-left:4px solid var(--csa-green)} .accent-blue{border-left:4px solid var(--csa-blue)}
+    .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800;border:1px solid transparent;white-space:nowrap}
+    .status-green{color:var(--status-green);background:rgba(39,139,66,.12);border-color:rgba(39,139,66,.18)}
+    .status-yellow{color:var(--status-yellow);background:rgba(255,220,11,.20);border-color:rgba(255,220,11,.30)}
+    .status-red{color:var(--status-red);background:rgba(179,68,44,.12);border-color:rgba(179,68,44,.18)}
+    .status-neutral{color:var(--csa-charcoal);background:rgba(92,101,105,.10);border-color:rgba(92,101,105,.16)}
+    .snapshot-grid{display:grid;grid-template-columns:180px 1fr;row-gap:14px;column-gap:16px;align-items:start}
+    .snapshot-label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .timeline-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .phase-pill{padding:8px 12px;border-radius:999px;background:#edf2f7;border:1px solid #d9e1ec;font-weight:700;color:var(--csa-charcoal);font-size:13px}
+    .phase-pill.complete{background:rgba(39,139,66,.12);color:var(--status-green);border-color:rgba(39,139,66,.18)}
+    .phase-pill.current{background:rgba(0,54,95,.12);color:var(--csa-blue);border-color:rgba(0,54,95,.20)}
+    .progress-wrap{margin-top:12px}
+    .progress-bar{width:100%;height:12px;background:rgba(0,31,64,.10);border-radius:999px;overflow:hidden}
+    .progress-bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--csa-blue),var(--csa-sky-blue))}
+    table{width:100%;border-collapse:collapse}
+    th,td{text-align:left;padding:12px;border-bottom:1px solid #e6ebf2;vertical-align:top;font-size:14px}
+    th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+    .workstream-card{border-top:5px solid transparent}
+    .ws-tech{border-top-color:var(--tech)} .ws-product{border-top-color:var(--product)} .ws-legal{border-top-color:var(--legal)} .ws-finance{border-top-color:var(--finance)} .ws-brand{border-top-color:var(--brand)} .ws-people{border-top-color:var(--people)}
+    .workstream-title{font-size:18px;font-weight:800;color:var(--csa-royal-blue);margin-bottom:10px}
+    .small-progress{width:100%;height:10px;background:rgba(0,31,64,.10);border-radius:999px;overflow:hidden;margin:10px 0}
+    .small-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--csa-blue),var(--csa-sky-blue))}
+    .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .tag{background:#f2f4f7;border:1px solid #dde3eb;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:var(--csa-royal-blue);cursor:pointer}
+    .tag.active{background:var(--csa-blue);color:#fff;border-color:var(--csa-blue)}
+    .stakeholder-card{position:relative}
+    .stakeholder-head{display:flex;gap:14px;align-items:flex-start}
+    .avatar{width:42px;height:42px;border-radius:999px;display:grid;place-items:center;color:#fff;font-weight:800;flex:0 0 auto;background:var(--csa-blue)}
+    .stakeholder-name{font-size:20px;font-weight:800;color:var(--csa-royal-blue)}
+    .stakeholder-company{color:var(--csa-blue);font-weight:700;margin-top:2px}
+    .stakeholder-role{color:var(--muted);margin-top:4px}
+    .stakeholder-footer{margin-top:12px;display:grid;gap:8px}
+    .stakeholder-expand{margin-top:12px;padding-top:12px;border-top:1px solid #e6ebf2;color:var(--text-soft);display:none}
+    .stakeholder-card.open .stakeholder-expand{display:block}
+    .attention-list{display:grid;gap:10px}
+    .attention-item{border:1px solid var(--border);border-left:4px solid var(--status-red);border-radius:12px;padding:14px;background:#fff}
+    .gantt-wrap{overflow:auto}.gantt-table{min-width:1500px}
+    .gantt-week-col{min-width:var(--gantt-week-width);text-align:center;font-size:11px;color:var(--muted);border-bottom:1px solid #dfe6ef;white-space:nowrap;padding:10px 6px}
+    .gantt-timeline-cell{position:relative;padding:0}
+    .gantt-grid{position:relative;height:48px;width:100%;min-width:100%;background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(var(--gantt-week-width) - 1px),#e8edf4 calc(var(--gantt-week-width) - 1px),#e8edf4 var(--gantt-week-width))}
+    .gantt-bar-wrap{position:absolute;left:0;right:0;top:14px;height:18px;background:transparent;border-radius:999px;overflow:visible}
+    .gantt-bar{height:100%;border-radius:999px;background:var(--csa-blue);position:absolute;top:0}
+    .gantt-bar.complete{background:var(--csa-green)} .gantt-bar.risk{background:#d97706} .gantt-bar.blocked{background:var(--status-red)}
+    .today-line{width:2px;background:var(--status-red);position:absolute;top:-6px;bottom:-6px;left:50%;opacity:.9}
+    .critical-dot{display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--status-red);margin-left:8px}
+    .note{font-size:12px;color:var(--muted);margin-top:8px}
+    .loading-card{text-align:center;color:var(--muted);padding:28px}
+    #passwordGate{position:fixed;inset:0;background:#001F40;color:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
+    .password-box{width:min(420px,100%);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:24px}
+    .password-box input{width:100%;padding:12px;border-radius:10px;border:none;margin-bottom:12px;font-size:16px}
+    .hidden{display:none!important}
+    @media (max-width:1100px){.grid-6{grid-template-columns:repeat(3,1fr)}.grid-5{grid-template-columns:repeat(2,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:700px){
+      .topbar-inner,.tabs-inner,.page{width:min(100vw - 20px,1400px)}
+      .grid-6,.grid-5,.grid-4,.grid-3{grid-template-columns:1fr}
+      .snapshot-grid{grid-template-columns:1fr}
+      .brand-logo{height:40px}.brand-title{font-size:20px}
     }
   </style>
 </head>
 <body>
-
   <div id="passwordGate">
     <div class="password-box">
       <h2>Vannin × CSA Dashboard</h2>
@@ -650,36 +142,21 @@
         <h2 class="section-title">Summary</h2>
         <p class="section-desc">Executive-level project overview across status, schedule, milestones, and workstream health.</p>
       </div>
-
-      <div class="section">
-        <div id="summaryHeaderCards" class="grid grid-4"></div>
-      </div>
-
-      <div class="section">
-        <div class="card">
-          <div class="snapshot-grid" id="summarySnapshot"></div>
-        </div>
-      </div>
-
+      <div class="section"><div id="summaryHeaderCards" class="grid grid-4"></div></div>
+      <div class="section"><div class="card"><div class="snapshot-grid" id="summarySnapshot"></div></div></div>
       <div class="section">
         <h3 class="section-title">Key Milestones</h3>
         <div class="card">
           <table>
             <thead>
               <tr>
-                <th>Milestone</th>
-                <th>Definition</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Owner</th>
-                <th>Critical Path</th>
+                <th>Milestone</th><th>Definition</th><th>Date</th><th>Status</th><th>Owner</th><th>Critical Path</th>
               </tr>
             </thead>
             <tbody id="summaryMilestonesTable"></tbody>
           </table>
         </div>
       </div>
-
       <div class="section">
         <h3 class="section-title">Workstream Health</h3>
         <div id="workstreamHealthCards" class="grid grid-3"></div>
@@ -701,36 +178,26 @@
         <h2 class="section-title">Schedule</h2>
         <p class="section-desc">Milestone-driven timeline, schedule health, and workstream delivery progress.</p>
       </div>
-
       <div class="section">
         <div id="scheduleOverview" class="grid grid-6"></div>
         <div class="card progress-wrap">
-          <div style="display:flex; justify-content:space-between; gap:12px; font-weight:700; margin-bottom:8px;">
-            <span>Overall Progress</span>
-            <span id="scheduleProgressText">0%</span>
+          <div style="display:flex;justify-content:space-between;gap:12px;font-weight:700;margin-bottom:8px;">
+            <span>Overall Progress</span><span id="scheduleProgressText">0%</span>
           </div>
           <div class="progress-bar"><span id="scheduleProgressBar" style="width:0%"></span></div>
           <div class="timeline-strip" id="phaseStrip"></div>
         </div>
       </div>
-
       <div class="section">
         <h3 class="section-title">Milestone Gantt View</h3>
         <div class="card gantt-wrap">
-          <div class="note">Red markers indicate critical path items. Red line marks today. Weekly markers shown across the timeline.</div>
+          <div class="note">Red markers indicate critical path items. The red line marks today.</div>
           <table class="gantt-table">
-            <thead>
-              <tr>
-                <th style="width:180px;">Workstream</th>
-                <th style="width:260px;">Milestone</th>
-                <th id="ganttTimelineHeader">Timeline</th>
-              </tr>
-            </thead>
+            <thead id="ganttTableHead"></thead>
             <tbody id="ganttTableBody"></tbody>
           </table>
         </div>
       </div>
-
       <div class="section">
         <h3 class="section-title">Workstream Breakdown</h3>
         <div id="scheduleWorkstreamCards" class="grid grid-3"></div>
@@ -742,68 +209,44 @@
         <h2 class="section-title">Action Items</h2>
         <p class="section-desc">Execution view across overdue actions, open priorities, and risk-linked follow-up items.</p>
       </div>
-
-      <div class="section">
-        <div id="actionOverviewCards" class="grid grid-5"></div>
-      </div>
-
+      <div class="section"><div id="actionOverviewCards" class="grid grid-5"></div></div>
       <div class="section">
         <h3 class="section-title">Overdue Actions</h3>
         <div class="card">
           <table>
             <thead>
               <tr>
-                <th>Item</th>
-                <th>Milestone</th>
-                <th>Workstream</th>
-                <th>Description</th>
-                <th>Owner</th>
-                <th>Due Date</th>
-                <th>Days Overdue</th>
+                <th>Item</th><th>Milestone</th><th>Workstream</th><th>Description</th><th>Owner</th><th>Due Date</th><th>Days Overdue</th>
               </tr>
             </thead>
             <tbody id="overdueActionsTable"></tbody>
           </table>
         </div>
       </div>
-
       <div class="section">
         <h3 class="section-title">Top Open Action Items</h3>
         <div class="card">
           <table>
             <thead>
               <tr>
-                <th>Item</th>
-                <th>Milestone</th>
-                <th>Workstream</th>
-                <th>Description</th>
-                <th>Owner</th>
-                <th>Due Date</th>
-                <th>Status</th>
+                <th>Item</th><th>Milestone</th><th>Workstream</th><th>Description</th><th>Owner</th><th>Due Date</th><th>Status</th>
               </tr>
             </thead>
             <tbody id="topOpenActionsTable"></tbody>
           </table>
         </div>
       </div>
-
       <div class="section">
         <h3 class="section-title">Action Items by Workstream</h3>
         <div id="actionWorkstreamCards" class="grid grid-3"></div>
       </div>
-
       <div class="section">
         <h3 class="section-title">Open Risks</h3>
         <div class="card">
           <table>
             <thead>
               <tr>
-                <th>Risk</th>
-                <th>Workstream</th>
-                <th>Severity</th>
-                <th>Owner</th>
-                <th>Mitigation</th>
-                <th>Status</th>
+                <th>Risk</th><th>Workstream</th><th>Severity</th><th>Owner</th><th>Mitigation</th><th>Status</th>
               </tr>
             </thead>
             <tbody id="openRisksTable"></tbody>
@@ -814,498 +257,268 @@
   </main>
 
   <script>
-    const SHEET_CONFIG = {
-      spreadsheetId: "1DvPwT-23ZT_ALtMYmJLJVTDn-lNRfoQE",
-      tabs: {
-        summary: "1173399963",
-        stakeholders: "775053489",
-        schedule: "1023511477",
-        actions: "1792393465",
-        risks: "436126045",
-        workstreams: "1683313468"
-      }
-    };
+    const SHEET_CONFIG={spreadsheetId:"1DvPwT-23ZT_ALtMYmJLJVTDn-lNRfoQE",tabs:{summary:"1173399963",stakeholders:"775053489",schedule:"1023511477",actions:"1792393465",risks:"436126045",workstreams:"1683313468"}};
+    const APP={summary:[],stakeholders:[],schedule:[],actions:[],risks:[],workstreams:[]};
+    const TODAY=new Date();
 
-    const APP = {
-      summary: [],
-      stakeholders: [],
-      schedule: [],
-      actions: [],
-      risks: [],
-      workstreams: []
-    };
+    function csvUrl(gid){return `https://docs.google.com/spreadsheets/d/${SHEET_CONFIG.spreadsheetId}/export?format=csv&gid=${gid}`}
+    function checkPassword(){const pw=document.getElementById("pwInput").value; if(pw==="vannin2026"){document.getElementById("passwordGate").classList.add("hidden")} else {alert("Incorrect password")}}
+    function cleanText(value){return String(value||"").replace(/\s+/g," ").trim()}
 
-    const TODAY = new Date();
-
-    function csvUrl(gid) {
-      return `https://docs.google.com/spreadsheets/d/${SHEET_CONFIG.spreadsheetId}/export?format=csv&gid=${gid}`;
-    }
-
-    function checkPassword() {
-      const pw = document.getElementById("pwInput").value;
-      if (pw === "vannin2026") {
-        document.getElementById("passwordGate").classList.add("hidden");
-      } else {
-        alert("Incorrect password");
-      }
-    }
-
-    function cleanText(value) {
-      return String(value || "").replace(/\s+/g, " ").trim();
-    }
-
-    function parseCSV(text) {
-      const rows = [];
-      let row = [];
-      let value = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const next = text[i + 1];
-
-        if (char === '"') {
-          if (inQuotes && next === '"') {
-            value += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (char === "," && !inQuotes) {
-          row.push(value);
-          value = "";
-        } else if ((char === "\n" || char === "\r") && !inQuotes) {
-          if (char === "\r" && next === "\n") i++;
-          row.push(value);
-          if (row.some(cell => cell.trim() !== "")) rows.push(row);
-          row = [];
-          value = "";
-        } else {
-          value += char;
-        }
-      }
-
-      if (value.length > 0 || row.length > 0) {
-        row.push(value);
-        if (row.some(cell => cell.trim() !== "")) rows.push(row);
-      }
-
-      if (!rows.length) return [];
-
-      const headers = rows[0].map(h => h.trim());
-      return rows.slice(1).map(r => {
-        const obj = {};
-        headers.forEach((h, i) => obj[h] = (r[i] || "").trim());
-        return obj;
-      });
-    }
-
-    async function loadCSV(url) {
-      const response = await fetch(url + "&cachebust=" + Date.now());
-      if (!response.ok) throw new Error("Could not load " + url);
-      const text = await response.text();
+    async function loadCSV(url){
+      const response=await fetch(url+"&cachebust="+Date.now());
+      if(!response.ok) throw new Error("Could not load "+url);
+      const text=await response.text();
       return parseCSV(text);
     }
 
-    function safeGet(obj, keys, fallback = "") {
-      for (const key of keys) {
-        if (obj[key] !== undefined && obj[key] !== "") return obj[key];
+    function parseCSV(text){
+      const rows=[]; let row=[],value="",inQuotes=false;
+      for(let i=0;i<text.length;i++){
+        const char=text[i],next=text[i+1];
+        if(char==='"'){
+          if(inQuotes&&next==='"'){value+='"';i++} else {inQuotes=!inQuotes}
+        } else if(char===","&&!inQuotes){
+          row.push(value); value="";
+        } else if((char==="\n"||char==="\r")&&!inQuotes){
+          if(char==="\r"&&next==="\n") i++;
+          row.push(value);
+          if(row.some(cell=>cell.trim()!=="")) rows.push(row);
+          row=[]; value="";
+        } else {
+          value+=char;
+        }
       }
-      return fallback;
+      if(value.length>0||row.length>0){row.push(value); if(row.some(cell=>cell.trim()!=="")) rows.push(row)}
+      if(!rows.length) return [];
+      const headers=rows[0].map(h=>h.trim());
+      return rows.slice(1).map(r=>{const obj={}; headers.forEach((h,i)=>obj[h]=(r[i]||"").trim()); return obj;});
     }
 
-    function parseDate(value) {
-      if (!value) return null;
-      const d = new Date(value);
-      return isNaN(d) ? null : d;
-    }
+    function safeGet(obj,keys,fallback=""){for(const key of keys){if(obj[key]!==undefined&&obj[key]!=="") return obj[key]} return fallback}
+    function parseDate(value){if(!value) return null; const d=new Date(value); return isNaN(d)?null:d}
+    function formatDate(value){const d=parseDate(value); if(!d) return value||"—"; return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}
+    function diffDays(from,to){const ms=1000*60*60*24; return Math.floor((to-from)/ms)}
+    function toNumber(value,fallback=0){const n=parseFloat(String(value).replace("%","").trim()); return isNaN(n)?fallback:n}
+    function initials(name){return (name||"").split(" ").filter(Boolean).slice(0,2).map(part=>part[0].toUpperCase()).join("")}
 
-    function formatDate(value) {
-      const d = parseDate(value);
-      if (!d) return value || "—";
-      return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-    }
-
-    function diffDays(from, to) {
-      const ms = 1000 * 60 * 60 * 24;
-      return Math.floor((to - from) / ms);
-    }
-
-    function statusBadge(status) {
-      const s = (status || "").toLowerCase();
-      if (["green", "on track", "complete", "completed", "champion", "supporter", "open"].includes(s)) {
-        return '<span class="badge status-green">' + (status || "Green") + '</span>';
-      }
-      if (["yellow", "neutral", "concerned", "upcoming", "mixed", "medium"].includes(s)) {
-        return '<span class="badge status-yellow">' + (status || "Yellow") + '</span>';
-      }
-      if (["red", "blocked", "delayed", "detractor", "overdue", "high", "at risk"].includes(s)) {
-        return '<span class="badge status-red">' + (status || "Red") + '</span>';
-      }
-      return '<span class="badge status-neutral">' + (status || "—") + '</span>';
-    }
-
-    function progressStatusBadge(status) {
-      const s = (status || "").toLowerCase().trim();
-
-      if (["complete", "completed"].includes(s)) {
-        return `<span class="badge status-green">${status || "Complete"}</span>`;
-      }
-      if (["in progress"].includes(s)) {
-        return `<span class="badge status-yellow">${status || "In Progress"}</span>`;
-      }
-      if (["at risk", "blocked", "overdue", "delayed"].includes(s)) {
-        return `<span class="badge status-red">${status || "At Risk"}</span>`;
-      }
-      if (["not started"].includes(s)) {
-        return `<span class="badge status-gray">${status || "Not Started"}</span>`;
-      }
-
-      return `<span class="badge status-neutral">${status || "—"}</span>`;
-    }
-
-    function workstreamClass(name) {
-      const n = (name || "").toLowerCase();
-      if (n === "tech") return "ws-tech";
-      if (n === "product") return "ws-product";
-      if (n === "legal") return "ws-legal";
-      if (n === "finance") return "ws-finance";
-      if (n === "brand") return "ws-brand";
-      if (n === "people") return "ws-people";
+    function workstreamClass(name){
+      const n=(name||"").toLowerCase();
+      if(n==="tech") return "ws-tech";
+      if(n==="product") return "ws-product";
+      if(n==="legal") return "ws-legal";
+      if(n==="finance") return "ws-finance";
+      if(n==="brand") return "ws-brand";
+      if(n==="people") return "ws-people";
       return "";
     }
 
-    function initials(name) {
-      return (name || "")
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(part => part[0].toUpperCase())
-        .join("");
+    function statusBadge(status){
+      const raw=(status||"").trim(), s=raw.toLowerCase();
+      if(["complete","completed","done","green","on track"].includes(s)) return `<span class="badge status-green">${raw||"Complete"}</span>`;
+      if(["in progress","yellow","pending","upcoming"].includes(s)) return `<span class="badge status-yellow">${raw||"In Progress"}</span>`;
+      if(["at risk","blocked","delayed","red","overdue","high"].includes(s)) return `<span class="badge status-red">${raw||"At Risk"}</span>`;
+      if(["not started","not-started","planned","gray","grey"].includes(s)) return `<span class="badge status-neutral">${raw||"Not Started"}</span>`;
+      return `<span class="badge status-neutral">${raw||"—"}</span>`;
     }
 
-    function toNumber(value, fallback = 0) {
-      const n = parseFloat(String(value).replace("%", "").trim());
-      return isNaN(n) ? fallback : n;
-    }
-
-    function startOfWeek(date) {
-      const d = new Date(date);
-      const day = d.getDay();
-      const diff = day === 0 ? -6 : 1 - day;
-      d.setDate(d.getDate() + diff);
-      d.setHours(0, 0, 0, 0);
-      return d;
-    }
-
-    function addDays(date, days) {
-      const d = new Date(date);
-      d.setDate(d.getDate() + days);
-      return d;
-    }
-
-    function buildWeeklyScale(minDate, maxDate) {
-      const weeks = [];
-      let cursor = startOfWeek(minDate);
-      const end = addDays(maxDate, 7);
-
-      while (cursor <= end) {
-        weeks.push(new Date(cursor));
-        cursor = addDays(cursor, 7);
-      }
-
-      return weeks;
-    }
-
-    function formatWeekLabel(date) {
-      return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
-    }
-
-    function normalizeSummary() {
-      const row = APP.summary[0] || {};
+    function normalizeSummary(){
+      const row=APP.summary[0]||{};
       return {
-        overallStatus: safeGet(row, ["Overall Status", "Status", "OverallProjectStatus"], "Yellow"),
-        scheduleStatus: safeGet(row, ["Schedule Status", "ScheduleStatus"], "Yellow"),
-        sentimentStatus: safeGet(row, ["Stakeholder Sentiment", "Sentiment", "Sentiment Status"], "Yellow"),
-        lastUpdated: safeGet(row, ["Last Updated", "LastUpdated"], new Date().toISOString().slice(0, 10)),
-        executiveSummary: safeGet(row, ["Executive Summary", "Status Narrative", "Summary"], "Executive summary not yet provided."),
-        scheduledCompletion: safeGet(row, ["Scheduled Completion Date", "Completion Target", "Target Completion"], "—"),
-        keyRisk: safeGet(row, ["Key Risk", "Top Project Risk", "Risk"], "—"),
-        criticalBlocker: safeGet(row, ["Critical Blocker", "Blocker"], "—"),
-        nextMilestone: safeGet(row, ["Next Milestone", "Upcoming Milestone"], "—"),
-        projectStart: safeGet(row, ["Project Start", "Project Start Date"], "—"),
-        currentPhase: safeGet(row, ["Current Phase", "Phase"], "Design"),
-        targetCompletion: safeGet(row, ["Target Completion", "Completion Target"], "—"),
-        monthsElapsed: safeGet(row, ["Months Elapsed", "Time Elapsed"], "—"),
-        milestonesCompleted: safeGet(row, ["Milestones Completed", "Milestone Count"], "—"),
-        overallProgress: safeGet(row, ["Overall Progress", "Progress %", "Progress"], "0")
+        overallStatus:safeGet(row,["Overall Status","Status","OverallProjectStatus"],"Yellow"),
+        scheduleStatus:safeGet(row,["Schedule Status","ScheduleStatus"],"Yellow"),
+        sentimentStatus:safeGet(row,["Stakeholder Sentiment","Sentiment","Sentiment Status"],"Yellow"),
+        lastUpdated:safeGet(row,["Last Updated","LastUpdated"],new Date().toISOString().slice(0,10)),
+        executiveSummary:safeGet(row,["Executive Summary","Status Narrative","Summary"],"Executive summary not yet provided."),
+        scheduledCompletion:safeGet(row,["Scheduled Completion Date","Completion Target","Target Completion"],"—"),
+        keyRisk:safeGet(row,["Key Risk","Top Project Risk","Risk"],"—"),
+        criticalBlocker:safeGet(row,["Critical Blocker","Blocker"],"—"),
+        nextMilestone:safeGet(row,["Next Milestone","Upcoming Milestone"],"—"),
+        projectStart:safeGet(row,["Project Start","Project Start Date"],"—"),
+        currentPhase:safeGet(row,["Current Phase","Phase"],"Design"),
+        targetCompletion:safeGet(row,["Target Completion","Completion Target"],"—"),
+        monthsElapsed:safeGet(row,["Months Elapsed","Time Elapsed"],"—"),
+        milestonesCompleted:safeGet(row,["Milestones Completed","Milestone Count"],"—"),
+        overallProgress:safeGet(row,["Overall Progress","Progress %","Progress"],"0")
       };
     }
 
-    async function exportExecutiveSummary() {
-      try {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: "pt", format: "letter" });
-
-        const s = normalizeSummary();
-        const margin = 48;
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const contentWidth = pageWidth - margin * 2;
-        let y = 56;
-
-        const addWrappedText = (label, text, fontSize = 11, gapAfter = 18) => {
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(11);
-          doc.setTextColor(0, 31, 64);
-          doc.text(label, margin, y);
-          y += 16;
-
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(fontSize);
-          doc.setTextColor(40, 40, 40);
-          const lines = doc.splitTextToSize(cleanText(text || "—"), contentWidth);
-          doc.text(lines, margin, y);
-          y += (lines.length * (fontSize + 4)) + gapAfter;
-
-          if (y > pageHeight - 80) {
-            doc.addPage();
-            y = 56;
-          }
+    async function exportExecutiveSummary(){
+      try{
+        const {jsPDF}=window.jspdf;
+        const doc=new jsPDF({unit:"pt",format:"letter"});
+        const s=normalizeSummary(), margin=48, pageWidth=doc.internal.pageSize.getWidth(), pageHeight=doc.internal.pageSize.getHeight(), contentWidth=pageWidth-margin*2;
+        let y=56;
+        const addWrappedText=(label,text,fontSize=11,gapAfter=18)=>{
+          doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(0,31,64); doc.text(label,margin,y); y+=16;
+          doc.setFont("helvetica","normal"); doc.setFontSize(fontSize); doc.setTextColor(40,40,40);
+          const lines=doc.splitTextToSize(cleanText(text||"—"),contentWidth);
+          doc.text(lines,margin,y); y+=(lines.length*(fontSize+4))+gapAfter;
+          if(y>pageHeight-80){doc.addPage(); y=56}
         };
+        doc.setFillColor(0,31,64); doc.rect(0,0,pageWidth,88,"F");
+        doc.setFont("helvetica","bold"); doc.setTextColor(255,255,255); doc.setFontSize(20); doc.text("Vannin × CSA Integration Dashboard",margin,42);
+        doc.setFontSize(12); doc.text("Executive Summary",margin,62);
+        doc.setFont("helvetica","normal"); doc.setTextColor(80,80,80); doc.setFontSize(10); doc.text(`Generated: ${new Date().toLocaleString()}`,margin,110);
+        y=140;
+        addWrappedText("Overall Project Status",s.overallStatus,12,14);
+        addWrappedText("Schedule Status",s.scheduleStatus,12,14);
+        addWrappedText("Stakeholder Sentiment",s.sentimentStatus,12,14);
+        addWrappedText("Last Updated",formatDate(s.lastUpdated),12,14);
+        addWrappedText("Executive Summary",s.executiveSummary);
+        addWrappedText("Scheduled Completion",formatDate(s.scheduledCompletion));
+        addWrappedText("Current Phase",s.currentPhase);
+        addWrappedText("Next Milestone",s.nextMilestone);
+        addWrappedText("Key Risk",s.keyRisk);
+        addWrappedText("Critical Blocker",s.criticalBlocker);
 
-        doc.setFillColor(0, 31, 64);
-        doc.rect(0, 0, pageWidth, 88, "F");
-
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(20);
-        doc.text("Vannin × CSA Integration Dashboard", margin, 42);
-
-        doc.setFontSize(12);
-        doc.text("Executive Summary", margin, 62);
-
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(80, 80, 80);
-        doc.setFontSize(10);
-        doc.text(`Generated: ${new Date().toLocaleString()}`, margin, 110);
-
-        y = 140;
-
-        addWrappedText("Overall Project Status", s.overallStatus, 12, 14);
-        addWrappedText("Schedule Status", s.scheduleStatus, 12, 14);
-        addWrappedText("Stakeholder Sentiment", s.sentimentStatus, 12, 14);
-        addWrappedText("Last Updated", formatDate(s.lastUpdated), 12, 14);
-
-        addWrappedText("Executive Summary", s.executiveSummary);
-        addWrappedText("Scheduled Completion", formatDate(s.scheduledCompletion));
-        addWrappedText("Current Phase", s.currentPhase);
-        addWrappedText("Next Milestone", s.nextMilestone);
-        addWrappedText("Key Risk", s.keyRisk);
-        addWrappedText("Critical Blocker", s.criticalBlocker);
-
-        const milestones = APP.schedule.slice(0, 8);
-        if (milestones.length) {
-          if (y > pageHeight - 180) {
-            doc.addPage();
-            y = 56;
-          }
-
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(13);
-          doc.setTextColor(0, 31, 64);
-          doc.text("Key Milestones", margin, y);
-          y += 20;
-
-          milestones.forEach((m) => {
-            const milestoneText = [
-              `Milestone: ${safeGet(m, ["Milestone Name", "Milestone"], "—")}`,
-              `Definition: ${safeGet(m, ["Definition", "Description"], "—")}`,
-              `Date: ${formatDate(safeGet(m, ["Date", "End Date", "Milestone Date"]))}`,
-              `Status: ${safeGet(m, ["Status"], "—")}`,
-              `Owner: ${safeGet(m, ["Owner"], "—")}`,
-              `Critical Path: ${safeGet(m, ["Critical Path", "CriticalPath"], "No")}`
+        const milestones=APP.schedule.slice(0,8);
+        if(milestones.length){
+          if(y>pageHeight-180){doc.addPage(); y=56}
+          doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(0,31,64); doc.text("Key Milestones",margin,y); y+=20;
+          milestones.forEach((m)=>{
+            const milestoneText=[
+              `Milestone: ${safeGet(m,["Milestone Name","Milestone"],"—")}`,
+              `Definition: ${safeGet(m,["Definition","Description"],"—")}`,
+              `Date: ${formatDate(safeGet(m,["Date","End Date","Milestone Date"]))}`,
+              `Status: ${safeGet(m,["Status"],"—")}`,
+              `Owner: ${safeGet(m,["Owner"],"—")}`,
+              `Critical Path: ${safeGet(m,["Critical Path","CriticalPath"],"No")}`
             ].join(" | ");
-
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.setTextColor(50, 50, 50);
-            const lines = doc.splitTextToSize(milestoneText, contentWidth);
-            doc.text(lines, margin, y);
-            y += lines.length * 14 + 10;
-
-            if (y > pageHeight - 60) {
-              doc.addPage();
-              y = 56;
-            }
+            doc.setFont("helvetica","normal"); doc.setFontSize(10); doc.setTextColor(50,50,50);
+            const lines=doc.splitTextToSize(milestoneText,contentWidth);
+            doc.text(lines,margin,y); y+=lines.length*14+10;
+            if(y>pageHeight-60){doc.addPage(); y=56}
           });
         }
-
-        const filenameDate = new Date().toISOString().slice(0, 10);
+        const filenameDate=new Date().toISOString().slice(0,10);
         doc.save(`Vannin_CSA_Executive_Summary_${filenameDate}.pdf`);
-      } catch (error) {
+      }catch(error){
         console.error(error);
         alert("Could not generate PDF. Check that jsPDF loaded correctly.");
       }
     }
 
-    document.querySelectorAll(".tab-button").forEach(btn => {
-      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
-    });
+    function startOfWeek(date){const d=new Date(date); const day=d.getDay(); const diff=d.getDate()-day+(day===0?-6:1); d.setDate(diff); d.setHours(0,0,0,0); return d}
+    function addDays(date,days){const d=new Date(date); d.setDate(d.getDate()+days); return d}
+    function formatWeekLabel(date){return date.toLocaleDateString(undefined,{month:"short",day:"numeric"})}
 
-    function switchTab(tabId) {
-      document.querySelectorAll(".tab-button").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.tab === tabId);
-      });
-      document.querySelectorAll(".tab-panel").forEach(panel => {
-        panel.classList.toggle("active", panel.id === tabId);
-      });
+    function buildGanttHeader(minDate,maxDate){
+      const start=startOfWeek(minDate), end=startOfWeek(maxDate), weeks=[];
+      let cursor=new Date(start);
+      while(cursor<=end){weeks.push(new Date(cursor)); cursor=addDays(cursor,7)}
+      const weekCols=weeks.map(w=>`<th class="gantt-week-col">${formatWeekLabel(w)}</th>`).join("");
+      document.getElementById("ganttTableHead").innerHTML=`<tr><th style="width:180px;">Workstream</th><th style="width:260px;">Milestone</th>${weekCols}</tr>`;
+      return weeks;
     }
 
-    function renderSummary() {
-      const s = normalizeSummary();
+    document.querySelectorAll(".tab-button").forEach(btn=>btn.addEventListener("click",()=>switchTab(btn.dataset.tab)));
 
-      document.getElementById("summaryHeaderCards").innerHTML = `
-        <div class="card kpi-card accent-blue">
-          <div class="kpi-label">Overall Project Status</div>
-          <div>${statusBadge(s.overallStatus)}</div>
-          <div class="kpi-sub">Current overall project health</div>
-        </div>
-        <div class="card kpi-card accent-green">
-          <div class="kpi-label">Schedule Status</div>
-          <div>${statusBadge(s.scheduleStatus)}</div>
-          <div class="kpi-sub">Timeline confidence</div>
-        </div>
-        <div class="card kpi-card accent-yellow">
-          <div class="kpi-label">Stakeholder Sentiment</div>
-          <div>${statusBadge(s.sentimentStatus)}</div>
-          <div class="kpi-sub">Change management signal</div>
-        </div>
-        <div class="card kpi-card accent-blue">
-          <div class="kpi-label">Last Updated</div>
-          <div class="kpi-value" style="font-size:22px;">${formatDate(s.lastUpdated)}</div>
-          <div class="kpi-sub">Most recent source refresh</div>
-        </div>
+    function switchTab(tabId){
+      document.querySelectorAll(".tab-button").forEach(btn=>btn.classList.toggle("active",btn.dataset.tab===tabId));
+      document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("active",panel.id===tabId));
+    }
+
+    function renderSummary(){
+      const s=normalizeSummary();
+      document.getElementById("summaryHeaderCards").innerHTML=`
+        <div class="card kpi-card accent-blue"><div class="kpi-label">Overall Project Status</div><div>${statusBadge(s.overallStatus)}</div><div class="kpi-sub">Current overall project health</div></div>
+        <div class="card kpi-card accent-green"><div class="kpi-label">Schedule Status</div><div>${statusBadge(s.scheduleStatus)}</div><div class="kpi-sub">Timeline confidence</div></div>
+        <div class="card kpi-card accent-yellow"><div class="kpi-label">Stakeholder Sentiment</div><div>${statusBadge(s.sentimentStatus)}</div><div class="kpi-sub">Change management signal</div></div>
+        <div class="card kpi-card accent-blue"><div class="kpi-label">Last Updated</div><div class="kpi-value" style="font-size:22px;">${formatDate(s.lastUpdated)}</div><div class="kpi-sub">Most recent source refresh</div></div>
       `;
-
-      document.getElementById("summarySnapshot").innerHTML = `
-        <div class="snapshot-label">Status</div>
-        <div>${s.executiveSummary}</div>
-        <div class="snapshot-label">Schedule</div>
-        <div>${formatDate(s.scheduledCompletion)}</div>
-        <div class="snapshot-label">Key Risk</div>
-        <div>${s.keyRisk}</div>
-        <div class="snapshot-label">Critical Blocker</div>
-        <div>${s.criticalBlocker}</div>
-        <div class="snapshot-label">Next Milestone</div>
-        <div>${s.nextMilestone}</div>
+      document.getElementById("summarySnapshot").innerHTML=`
+        <div class="snapshot-label">Status</div><div>${s.executiveSummary}</div>
+        <div class="snapshot-label">Schedule</div><div>${formatDate(s.scheduledCompletion)}</div>
+        <div class="snapshot-label">Key Risk</div><div>${s.keyRisk}</div>
+        <div class="snapshot-label">Critical Blocker</div><div>${s.criticalBlocker}</div>
+        <div class="snapshot-label">Next Milestone</div><div>${s.nextMilestone}</div>
       `;
-
-      const milestones = APP.schedule.slice(0, 8);
-      document.getElementById("summaryMilestonesTable").innerHTML = milestones.map(m => `
+      const milestones=APP.schedule.slice(0,8);
+      document.getElementById("summaryMilestonesTable").innerHTML=milestones.map(m=>`
         <tr>
-          <td>${safeGet(m, ["Milestone Name", "Milestone"], "—")}</td>
-          <td>${safeGet(m, ["Definition", "Description"], "—")}</td>
-          <td>${formatDate(safeGet(m, ["Date", "End Date", "Milestone Date"]))}</td>
-          <td>${progressStatusBadge(safeGet(m, ["Status"], "—"))}</td>
-          <td>${safeGet(m, ["Owner"], "—")}</td>
-          <td>${safeGet(m, ["Critical Path", "CriticalPath"], "No")}</td>
+          <td>${safeGet(m,["Milestone Name","Milestone"],"—")}</td>
+          <td>${safeGet(m,["Definition","Description"],"—")}</td>
+          <td>${formatDate(safeGet(m,["Date","End Date","Milestone Date"]))}</td>
+          <td>${statusBadge(safeGet(m,["Status"],"—"))}</td>
+          <td>${safeGet(m,["Owner"],"—")}</td>
+          <td>${safeGet(m,["Critical Path","CriticalPath"],"No")}</td>
         </tr>
-      `).join("") || `<tr><td colspan="6">No milestone data found yet.</td></tr>`;
-
-      document.getElementById("workstreamHealthCards").innerHTML = APP.workstreams.map(w => {
-        const name = safeGet(w, ["Workstream"], "—");
-        const progress = toNumber(safeGet(w, ["% Complete", "Percent Complete", "Progress"], "0"));
+      `).join("")||`<tr><td colspan="6">No milestone data found yet.</td></tr>`;
+      document.getElementById("workstreamHealthCards").innerHTML=APP.workstreams.map(w=>{
+        const name=safeGet(w,["Workstream"],"—"), progress=toNumber(safeGet(w,["% Complete","Percent Complete","Progress"],"0"));
         return `
           <div class="card workstream-card ${workstreamClass(name)}">
             <div class="workstream-title">${name}</div>
-            <div style="display:flex; justify-content:space-between; gap:10px; color:var(--muted);">
-              <span>${progress}% complete</span>
-              <span>${statusBadge(safeGet(w, ["Status"], "—"))}</span>
+            <div style="display:flex;justify-content:space-between;gap:10px;color:var(--muted);">
+              <span>${progress}% complete</span><span>${statusBadge(safeGet(w,["Status"],"—"))}</span>
             </div>
             <div class="small-progress"><span style="width:${progress}%"></span></div>
-            <div style="color:var(--text-soft);">${safeGet(w, ["Notes"], "No notes provided.")}</div>
-          </div>
-        `;
-      }).join("") || `<div class="card">No workstream data found yet.</div>`;
+            <div style="color:var(--text-soft);">${safeGet(w,["Notes"],"No notes provided.")}</div>
+          </div>`;
+      }).join("")||`<div class="card">No workstream data found yet.</div>`;
     }
 
-    function renderStakeholders() {
-      const tags = ["All", "Vannin", "CSA", "Client", "Member", "Partner", "Project Team"];
-      const filterWrap = document.getElementById("stakeholderFilters");
-      filterWrap.innerHTML = tags.map((tag, i) => `
-        <button class="tag ${i === 0 ? "active" : ""}" data-filter="${tag}">${tag}</button>
-      `).join("");
-
-      const atRisk = APP.stakeholders.filter(s => {
-        const sentiment = safeGet(s, ["Sentiment"], "").toLowerCase();
-        const influence = safeGet(s, ["Influence"], "").toLowerCase();
-        return sentiment === "detractor" || (sentiment === "concerned" && influence === "high");
+    function renderStakeholders(){
+      const tags=["All","Vannin","CSA","Client","Member","Partner","Project Team"];
+      const filterWrap=document.getElementById("stakeholderFilters");
+      filterWrap.innerHTML=tags.map((tag,i)=>`<button class="tag ${i===0?"active":""}" data-filter="${tag}">${tag}</button>`).join("");
+      const atRisk=APP.stakeholders.filter(s=>{
+        const sentiment=safeGet(s,["Sentiment"],"").toLowerCase(), influence=safeGet(s,["Influence"],"").toLowerCase();
+        return sentiment==="detractor"||(sentiment==="concerned"&&influence==="high");
       });
+      document.getElementById("stakeholderRiskStrip").innerHTML=atRisk.length?atRisk.map(s=>`
+        <div class="attention-item"><strong>${safeGet(s,["Name"],"Unknown")}</strong> — ${safeGet(s,["Sentiment"],"Concerned")} (${safeGet(s,["Influence"],"—")} Influence)</div>
+      `).join(""):`<div class="card">No at-risk stakeholders currently flagged.</div>`;
 
-      document.getElementById("stakeholderRiskStrip").innerHTML = atRisk.length
-        ? atRisk.map(s => `
-            <div class="attention-item">
-              <strong>${safeGet(s, ["Name"], "Unknown")}</strong> — ${safeGet(s, ["Sentiment"], "Concerned")} (${safeGet(s, ["Influence"], "—")} Influence)
-            </div>
-          `).join("")
-        : `<div class="card">No at-risk stakeholders currently flagged.</div>`;
-
-      function drawCards(filterValue = "All") {
-        const filtered = APP.stakeholders.filter(s => {
-          if (filterValue === "All") return true;
-          const tagText = safeGet(s, ["Tags", "Tag"], "");
+      function drawCards(filterValue="All"){
+        const filtered=APP.stakeholders.filter(s=>{
+          if(filterValue==="All") return true;
+          const tagText=safeGet(s,["Tags","Tag"],"");
           return tagText.toLowerCase().includes(filterValue.toLowerCase());
         });
-
-        document.getElementById("stakeholderCards").innerHTML = filtered.map((s, idx) => `
+        document.getElementById("stakeholderCards").innerHTML=filtered.map((s,idx)=>`
           <div class="card stakeholder-card" data-index="${idx}">
             <div class="stakeholder-head">
-              <div class="avatar">${initials(safeGet(s, ["Name"], ""))}</div>
+              <div class="avatar">${initials(safeGet(s,["Name"],""))}</div>
               <div>
-                <div class="stakeholder-name">${safeGet(s, ["Name"], "—")}</div>
-                <div class="stakeholder-company">${safeGet(s, ["Company"], "—")}</div>
-                <div class="stakeholder-role">${safeGet(s, ["Role"], "—")}</div>
+                <div class="stakeholder-name">${safeGet(s,["Name"],"—")}</div>
+                <div class="stakeholder-company">${safeGet(s,["Company"],"—")}</div>
+                <div class="stakeholder-role">${safeGet(s,["Role"],"—")}</div>
               </div>
             </div>
             <div class="tag-row" style="margin-top:12px;">
-              ${safeGet(s, ["Tags", "Tag"], "").split(",").filter(Boolean).map(t => `<span class="tag">${t.trim()}</span>`).join("")}
+              ${safeGet(s,["Tags","Tag"],"").split(",").filter(Boolean).map(t=>`<span class="tag">${t.trim()}</span>`).join("")}
             </div>
             <div class="stakeholder-footer">
-              <div>${statusBadge(safeGet(s, ["Sentiment"], "Neutral"))}</div>
-              <div><strong>Influence:</strong> ${safeGet(s, ["Influence"], "—")}</div>
-              <div><strong>Owner:</strong> ${safeGet(s, ["Owner"], "—")}</div>
+              <div>${statusBadge(safeGet(s,["Sentiment"],"Neutral"))}</div>
+              <div><strong>Influence:</strong> ${safeGet(s,["Influence"],"—")}</div>
+              <div><strong>Owner:</strong> ${safeGet(s,["Owner"],"—")}</div>
             </div>
             <div class="stakeholder-expand">
-              <div><strong>Notes:</strong> ${safeGet(s, ["Notes"], "—")}</div>
-              <div style="margin-top:8px;"><strong>Last Updated:</strong> ${safeGet(s, ["Last Updated", "LastUpdated"], "—")}</div>
+              <div><strong>Notes:</strong> ${safeGet(s,["Notes"],"—")}</div>
+              <div style="margin-top:8px;"><strong>Last Updated:</strong> ${safeGet(s,["Last Updated","LastUpdated"],"—")}</div>
             </div>
           </div>
-        `).join("") || `<div class="card">No stakeholder data found yet.</div>`;
-
-        document.querySelectorAll(".stakeholder-card").forEach(card => {
-          card.addEventListener("click", () => card.classList.toggle("open"));
-        });
+        `).join("")||`<div class="card">No stakeholder data found yet.</div>`;
+        document.querySelectorAll(".stakeholder-card").forEach(card=>card.addEventListener("click",()=>card.classList.toggle("open")));
       }
 
       drawCards();
-
-      filterWrap.querySelectorAll(".tag").forEach(btn => {
-        btn.addEventListener("click", () => {
-          filterWrap.querySelectorAll(".tag").forEach(t => t.classList.remove("active"));
-          btn.classList.add("active");
-          drawCards(btn.dataset.filter);
-        });
-      });
+      filterWrap.querySelectorAll(".tag").forEach(btn=>btn.addEventListener("click",()=>{
+        filterWrap.querySelectorAll(".tag").forEach(t=>t.classList.remove("active"));
+        btn.classList.add("active");
+        drawCards(btn.dataset.filter);
+      }));
     }
 
-    function renderSchedule() {
-      const s = normalizeSummary();
-      const milestonesComplete = APP.schedule.filter(r => safeGet(r, ["Status"], "").toLowerCase() === "complete").length;
-      const totalMilestones = APP.schedule.length;
-      const progress = totalMilestones ? Math.round((milestonesComplete / totalMilestones) * 100) : toNumber(s.overallProgress, 0);
+    function renderSchedule(){
+      const s=normalizeSummary();
+      const milestonesComplete=APP.schedule.filter(r=>safeGet(r,["Status"],"").toLowerCase()==="complete").length;
+      const totalMilestones=APP.schedule.length;
+      const progress=totalMilestones?Math.round((milestonesComplete/totalMilestones)*100):toNumber(s.overallProgress,0);
 
-      document.getElementById("scheduleOverview").innerHTML = `
+      document.getElementById("scheduleOverview").innerHTML=`
         <div class="card kpi-card"><div class="kpi-label">Project Start</div><div class="kpi-value" style="font-size:22px;">${formatDate(s.projectStart)}</div></div>
         <div class="card kpi-card"><div class="kpi-label">Current Phase</div><div class="kpi-value" style="font-size:22px;">${s.currentPhase}</div></div>
         <div class="card kpi-card"><div class="kpi-label">Schedule Status</div><div>${statusBadge(s.scheduleStatus)}</div></div>
@@ -1313,92 +526,197 @@
         <div class="card kpi-card"><div class="kpi-label">Time Elapsed</div><div class="kpi-value" style="font-size:22px;">${s.monthsElapsed}</div></div>
         <div class="card kpi-card"><div class="kpi-label">Milestones Completed</div><div class="kpi-value" style="font-size:22px;">${milestonesComplete} / ${totalMilestones}</div></div>
       `;
+      document.getElementById("scheduleProgressText").textContent=progress+"%";
+      document.getElementById("scheduleProgressBar").style.width=progress+"%";
 
-      document.getElementById("scheduleProgressText").textContent = progress + "%";
-      document.getElementById("scheduleProgressBar").style.width = progress + "%";
-
-      const phases = ["Design", "Build", "Pilot", "Deploy", "Monitor"];
-      const currentPhaseIndex = phases.findIndex(p => p.toLowerCase() === s.currentPhase.toLowerCase());
-      document.getElementById("phaseStrip").innerHTML = phases.map((phase, idx) => {
-        let cls = "";
-        if (idx < currentPhaseIndex) cls = "complete";
-        if (idx === currentPhaseIndex) cls = "current";
+      const phases=["Design","Build","Pilot","Deploy","Monitor"];
+      const currentPhaseIndex=phases.findIndex(p=>p.toLowerCase()===s.currentPhase.toLowerCase());
+      document.getElementById("phaseStrip").innerHTML=phases.map((phase,idx)=>{
+        let cls=""; if(idx<currentPhaseIndex) cls="complete"; if(idx===currentPhaseIndex) cls="current";
         return `<span class="phase-pill ${cls}">${phase}</span>`;
       }).join("");
 
-      const startDates = APP.schedule
-        .map(r => parseDate(safeGet(r, ["Start Date"], safeGet(r, ["Date", "End Date", "Milestone Date"]))))
-        .filter(Boolean)
-        .sort((a, b) => a - b);
+      const dates=APP.schedule.flatMap(r=>[
+        parseDate(safeGet(r,["Start Date"],safeGet(r,["Date","End Date","Milestone Date"]))),
+        parseDate(safeGet(r,["End Date","Date","Milestone Date"]))
+      ]).filter(Boolean).sort((a,b)=>a-b);
 
-      const endDates = APP.schedule
-        .map(r => parseDate(safeGet(r, ["End Date", "Date", "Milestone Date"])))
-        .filter(Boolean)
-        .sort((a, b) => b - a);
+      const minDate=dates[0]||TODAY;
+      const maxDate=dates[dates.length-1]||TODAY;
+      const ganttStart=startOfWeek(minDate);
+      const ganttEnd=addDays(startOfWeek(maxDate),7);
+      const totalDuration=Math.max(1,diffDays(ganttStart,ganttEnd));
+      const weeks=buildGanttHeader(ganttStart,ganttEnd);
 
-      const minDate = startDates[0] || TODAY;
-      const maxDate = endDates[0] || TODAY;
-      const totalDuration = Math.max(1, diffDays(minDate, maxDate));
-      const weeks = buildWeeklyScale(minDate, maxDate);
-
-      document.getElementById("ganttTimelineHeader").innerHTML = `
-        <div class="gantt-scale" style="grid-template-columns: repeat(${weeks.length}, minmax(48px, 1fr));">
-          ${weeks.map(w => `<div class="gantt-scale-cell">${formatWeekLabel(w)}</div>`).join("")}
-        </div>
-      `;
-
-      document.getElementById("ganttTableBody").innerHTML = APP.schedule.map(r => {
-        const start = parseDate(safeGet(r, ["Start Date"], safeGet(r, ["Date", "End Date", "Milestone Date"]))) || TODAY;
-        const end = parseDate(safeGet(r, ["End Date", "Date", "Milestone Date"])) || start;
-        const left = Math.max(0, (diffDays(minDate, start) / totalDuration) * 100);
-        const width = Math.max(2, (Math.max(1, diffDays(start, end) + 1) / totalDuration) * 100);
-        const todayPos = Math.max(0, Math.min(100, (diffDays(minDate, TODAY) / totalDuration) * 100));
-        const status = safeGet(r, ["Status"], "").toLowerCase();
-
-        let barClass = "";
-        if (status === "complete") barClass = "complete";
-        else if (status === "at risk") barClass = "risk";
-        else if (status === "blocked") barClass = "blocked";
-
+      document.getElementById("ganttTableBody").innerHTML=APP.schedule.map(r=>{
+        const start=parseDate(safeGet(r,["Start Date"],safeGet(r,["Date","End Date","Milestone Date"])))||TODAY;
+        const end=parseDate(safeGet(r,["End Date","Date","Milestone Date"]))||start;
+        const left=Math.max(0,(diffDays(ganttStart,start)/totalDuration)*100);
+        const width=Math.max(2,(Math.max(1,diffDays(start,end)+1)/totalDuration)*100);
+        const todayPos=Math.max(0,Math.min(100,(diffDays(ganttStart,TODAY)/totalDuration)*100));
+        const status=safeGet(r,["Status"],"").toLowerCase();
+        let barClass=""; if(status==="complete") barClass="complete"; else if(status==="at risk") barClass="risk"; else if(status==="blocked") barClass="blocked";
         return `
           <tr>
-            <td>${safeGet(r, ["Workstream"], "—")}</td>
-            <td>
-              ${safeGet(r, ["Milestone Name", "Milestone"], "—")}
-              ${safeGet(r, ["Critical Path", "CriticalPath"], "").toLowerCase() === "yes" ? '<span class="critical-dot"></span>' : ''}
-            </td>
-            <td>
-              <div class="gantt-bar-wrap" style="--weeks:${weeks.length};">
-                <div class="today-line" style="left:${todayPos}%"></div>
-                <div class="gantt-bar ${barClass}" style="left:${left}%; width:${width}%"></div>
+            <td>${safeGet(r,["Workstream"],"—")}</td>
+            <td>${safeGet(r,["Milestone Name","Milestone"],"—")}${safeGet(r,["Critical Path","CriticalPath"],"").toLowerCase()==="yes"?'<span class="critical-dot"></span>':''}</td>
+            <td class="gantt-timeline-cell" colspan="${Math.max(1,weeks.length)}">
+              <div class="gantt-grid">
+                <div class="gantt-bar-wrap">
+                  <div class="today-line" style="left:${todayPos}%"></div>
+                  <div class="gantt-bar ${barClass}" style="left:${left}%; width:${width}%"></div>
+                </div>
               </div>
             </td>
           </tr>
         `;
-      }).join("") || `<tr><td colspan="3">No schedule data found yet.</td></tr>`;
+      }).join("")||`<tr><td colspan="${weeks.length+2}">No schedule data found yet.</td></tr>`;
 
-      document.getElementById("scheduleWorkstreamCards").innerHTML = APP.workstreams.map(w => {
-        const name = safeGet(w, ["Workstream"], "—");
-        const percent = toNumber(safeGet(w, ["% Complete", "Percent Complete", "Progress"], "0"));
+      document.getElementById("scheduleWorkstreamCards").innerHTML=APP.workstreams.map(w=>{
+        const name=safeGet(w,["Workstream"],"—"), percent=toNumber(safeGet(w,["% Complete","Percent Complete","Progress"],"0"));
         return `
           <div class="card workstream-card ${workstreamClass(name)}">
             <div class="workstream-title">${name}</div>
-            <div style="display:flex; justify-content:space-between; gap:10px;">
-              <span>${statusBadge(safeGet(w, ["Status"], "—"))}</span>
-              <span>${percent}% complete</span>
+            <div style="display:flex;justify-content:space-between;gap:10px;">
+              <span>${statusBadge(safeGet(w,["Status"],"—"))}</span><span>${percent}% complete</span>
             </div>
             <div class="small-progress"><span style="width:${percent}%"></span></div>
-            <div style="display:flex; justify-content:space-between; gap:10px; color:var(--muted); font-size:13px;">
-              <span>Completed: ${safeGet(w, ["Completed"], "0")}</span>
-              <span>In Progress: ${safeGet(w, ["In Progress", "InProgress"], "0")}</span>
-              <span>At Risk: ${safeGet(w, ["At Risk", "AtRisk"], "0")}</span>
+            <div style="display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;">
+              <span>Completed: ${safeGet(w,["Completed"],"0")}</span>
+              <span>In Progress: ${safeGet(w,["In Progress","InProgress"],"0")}</span>
+              <span>At Risk: ${safeGet(w,["At Risk","AtRisk"],"0")}</span>
             </div>
-          </div>
-        `;
-      }).join("") || `<div class="card">No workstream schedule data found yet.</div>`;
+          </div>`;
+      }).join("")||`<div class="card">No workstream schedule data found yet.</div>`;
     }
 
-    function renderActions() {
-      const openActions = APP.actions.filter(a => safeGet(a, ["Status"], "").toLowerCase() !== "complete");
-      const overdue = openActions.filter(a => {
-        const d = parseDate(s
+    function renderActions(){
+      const openActions=APP.actions.filter(a=>safeGet(a,["Status"],"").toLowerCase()!=="complete");
+      const overdue=openActions.filter(a=>{const d=parseDate(safeGet(a,["Due Date","DueDate"])); return d&&d<TODAY});
+      const closedThisMonth=APP.actions.filter(a=>{
+        const completed=parseDate(safeGet(a,["Completed Date","CompletedDate"]));
+        return completed&&completed.getMonth()===TODAY.getMonth()&&completed.getFullYear()===TODAY.getFullYear();
+      });
+      const openRisks=APP.risks.filter(r=>safeGet(r,["Status"],"").toLowerCase()!=="closed");
+
+      document.getElementById("actionOverviewCards").innerHTML=`
+        <div class="card kpi-card accent-red"><div class="kpi-label">Overdue Items</div><div class="kpi-value">${overdue.length}</div><div class="kpi-sub">Require immediate follow-up</div></div>
+        <div class="card kpi-card accent-yellow"><div class="kpi-label">Open Items</div><div class="kpi-value">${openActions.length}</div><div class="kpi-sub">Not yet completed</div></div>
+        <div class="card kpi-card accent-green"><div class="kpi-label">Closed This Month</div><div class="kpi-value">${closedThisMonth.length}</div><div class="kpi-sub">Completed in current month</div></div>
+        <div class="card kpi-card accent-blue"><div class="kpi-label">Total Tracked</div><div class="kpi-value">${APP.actions.length}</div><div class="kpi-sub">All action items</div></div>
+        <div class="card kpi-card accent-red"><div class="kpi-label">Open Risks</div><div class="kpi-value">${openRisks.length}</div><div class="kpi-sub">Active unresolved risks</div></div>
+      `;
+
+      document.getElementById("overdueActionsTable").innerHTML=overdue.sort((a,b)=>{
+        const da=parseDate(safeGet(a,["Due Date","DueDate"]))||TODAY;
+        const db=parseDate(safeGet(b,["Due Date","DueDate"]))||TODAY;
+        return da-db;
+      }).map(a=>{
+        const due=parseDate(safeGet(a,["Due Date","DueDate"]))||TODAY;
+        const days=Math.abs(diffDays(due,TODAY));
+        return `
+          <tr>
+            <td>${safeGet(a,["Item Name","Item"],"—")}</td>
+            <td>${safeGet(a,["Milestone"],"—")}</td>
+            <td>${safeGet(a,["Workstream"],"—")}</td>
+            <td>${safeGet(a,["Description"],"—")}</td>
+            <td>${safeGet(a,["Owner"],"—")}</td>
+            <td>${formatDate(due)}</td>
+            <td>${days}</td>
+          </tr>`;
+      }).join("")||`<tr><td colspan="7">No overdue actions.</td></tr>`;
+
+      const topOpen=openActions.filter(a=>{
+        const priority=safeGet(a,["Priority"],"").toLowerCase();
+        const critical=safeGet(a,["Critical Path","CriticalPath"],"").toLowerCase()==="yes";
+        const due=parseDate(safeGet(a,["Due Date","DueDate"]));
+        const soon=due&&diffDays(TODAY,due)<=10;
+        return priority==="high"||critical||soon;
+      }).slice(0,10);
+
+      document.getElementById("topOpenActionsTable").innerHTML=topOpen.map(a=>`
+        <tr>
+          <td>${safeGet(a,["Item Name","Item"],"—")}</td>
+          <td>${safeGet(a,["Milestone"],"—")}</td>
+          <td>${safeGet(a,["Workstream"],"—")}</td>
+          <td>${safeGet(a,["Description"],"—")}</td>
+          <td>${safeGet(a,["Owner"],"—")}</td>
+          <td>${formatDate(safeGet(a,["Due Date","DueDate"]))}</td>
+          <td>${statusBadge(safeGet(a,["Status"],"—"))}</td>
+        </tr>
+      `).join("")||`<tr><td colspan="7">No open actions currently flagged.</td></tr>`;
+
+      const wsMap={};
+      APP.actions.forEach(a=>{
+        const ws=safeGet(a,["Workstream"],"Other");
+        if(!wsMap[ws]) wsMap[ws]={total:0,overdue:0,open:0,blocked:0};
+        wsMap[ws].total++;
+        if(safeGet(a,["Status"],"").toLowerCase()!=="complete") wsMap[ws].open++;
+        if(safeGet(a,["Status"],"").toLowerCase()==="blocked") wsMap[ws].blocked++;
+        const due=parseDate(safeGet(a,["Due Date","DueDate"]));
+        if(due&&due<TODAY&&safeGet(a,["Status"],"").toLowerCase()!=="complete") wsMap[ws].overdue++;
+      });
+
+      document.getElementById("actionWorkstreamCards").innerHTML=Object.entries(wsMap).map(([ws,data])=>`
+        <div class="card workstream-card ${workstreamClass(ws)}">
+          <div class="workstream-title">${ws}</div>
+          <div style="font-size:28px;font-weight:800;color:var(--csa-royal-blue);">${data.total}</div>
+          <div style="color:var(--muted);">${data.overdue} overdue · ${data.open} open · ${data.blocked} blocked</div>
+        </div>
+      `).join("")||`<div class="card">No action item data found yet.</div>`;
+
+      document.getElementById("openRisksTable").innerHTML=openRisks.map(r=>`
+        <tr>
+          <td>${safeGet(r,["Risk Name","Risk"],"—")}</td>
+          <td>${safeGet(r,["Workstream"],"—")}</td>
+          <td>${statusBadge(safeGet(r,["Severity"],"—"))}</td>
+          <td>${safeGet(r,["Owner"],"—")}</td>
+          <td>${safeGet(r,["Mitigation"],"—")}</td>
+          <td>${statusBadge(safeGet(r,["Status"],"—"))}</td>
+        </tr>
+      `).join("")||`<tr><td colspan="6">No open risks found.</td></tr>`;
+    }
+
+    function renderLoadingState(){
+      const loading=`<div class="card loading-card">Loading data from Google Sheets...</div>`;
+      document.getElementById("summaryHeaderCards").innerHTML=loading;
+      document.getElementById("stakeholderCards").innerHTML=loading;
+      document.getElementById("scheduleOverview").innerHTML=loading;
+      document.getElementById("actionOverviewCards").innerHTML=loading;
+    }
+
+    async function init(){
+      try{
+        renderLoadingState();
+        const [summary,stakeholders,schedule,actions,risks,workstreams]=await Promise.all([
+          loadCSV(csvUrl(SHEET_CONFIG.tabs.summary)),
+          loadCSV(csvUrl(SHEET_CONFIG.tabs.stakeholders)),
+          loadCSV(csvUrl(SHEET_CONFIG.tabs.schedule)),
+          loadCSV(csvUrl(SHEET_CONFIG.tabs.actions)),
+          loadCSV(csvUrl(SHEET_CONFIG.tabs.risks)),
+          loadCSV(csvUrl(SHEET_CONFIG.tabs.workstreams))
+        ]);
+        APP.summary=summary; APP.stakeholders=stakeholders; APP.schedule=schedule; APP.actions=actions; APP.risks=risks; APP.workstreams=workstreams;
+        renderSummary(); renderStakeholders(); renderSchedule(); renderActions();
+      }catch(error){
+        console.error(error);
+        document.querySelector(".page").innerHTML=`
+          <div class="card">
+            <h2>Google Sheet data could not be loaded</h2>
+            <p>Check these items:</p>
+            <ul>
+              <li>Your Google Sheet is accessible publicly or published to the web</li>
+              <li>The GIDs in <strong>SHEET_CONFIG</strong> are correct</li>
+              <li>Each publish tab starts with headers in row 1</li>
+              <li>There are no merged title rows above the headers</li>
+              <li>The jsPDF CDN is loading correctly for PDF downloads</li>
+            </ul>
+          </div>
+        `;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
